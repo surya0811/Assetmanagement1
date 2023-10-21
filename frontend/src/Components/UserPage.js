@@ -15,6 +15,11 @@ function UserPage() {
       if (response.ok) {
         const data = await response.json();
         setSearchResults(data.results);
+
+        // Automatically select the first product in the search results and fetch its variants and values
+        if (data.results.length > 0) {
+          handleProductClick(data.results[0]);
+        }
       } else {
         console.error('Search request failed.');
       }
@@ -31,6 +36,11 @@ function UserPage() {
         const data = await response.json();
         setProductVariants(data.variants);
         setSelectedProduct(product);
+
+        // Automatically select the first variant for the selected product and fetch its values
+        if (data.variants.length > 0) {
+          handleVariantSelect(data.variants[0]);
+        }
       } else {
         console.error('Fetching variants failed.');
       }
@@ -40,8 +50,7 @@ function UserPage() {
   };
 
   const handleVariantSelect = async (variant) => {
-    // When a variant is selected, fetch its values
-    setSelectedVariant(variant); // Set the selected variant
+    setSelectedVariant(variant);
     try {
       const response = await fetch(`http://localhost:3000/variants/${variant}/values`);
       if (response.ok) {
@@ -57,73 +66,90 @@ function UserPage() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      {/* ... Header ... */}
-      <header className="bg-blue-500 p-4 text-white">
-        <h1 className="text-4xl font-bold">User Page</h1>
+      <header className="bg-blue-500 p-4 text-white text-center">
+        <h1 className="text-2xl font-bold">Welcome to Our Products</h1>
       </header>
-
-      {/* Content */}
       <div className="container mx-auto py-4">
         <div className="flex">
-          {/* Search Bar */}
-          <div className="flex items-center justify-end mb-4">
+          <div className="flex items-center justify-end mb-4 w-1/2">
             <input
               type="text"
-              placeholder="Search..."
-              className="w-48 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              placeholder="Search for products..."
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button
-              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg ml-2 hover:bg-blue-700"
+              className="bg-blue-500 text-white font-semibold py-2 px-4 ml-2 rounded-lg hover:bg-blue-700"
               onClick={handleSearch}
             >
               Search
             </button>
-            </div>
-
-          {/* Search Results */}
+          </div>
           <div className="w-1/2 p-4">
             {searchResults.length > 0 && (
               <div>
                 <h2 className="text-xl font-semibold">Search Results:</h2>
-                <ul>
-                  {searchResults.map((result, index) => (
-                    <li key={index} onClick={() => handleProductClick(result)}>
-                      {result.productid} - {result.productName}
-                    </li>
-                  ))}
-                </ul>
+                {searchResults.map((result, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleProductClick(result)}
+                    className="cursor-pointer border p-2 my-2 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    <div className="bg-white p-4 rounded-lg shadow-md">
+                      <h3 className="text-xl font-semibold">{result.productname}</h3>
+                      <p className="text-gray-500">{result.productid}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
-
-          {/* Product Variants and Values */}
           <div className="w-1/2 p-4">
             {selectedProduct && (
               <div>
-                <h2 className="text-xl font-semibold">Variants for {selectedProduct.productName}:</h2>
-                <ul>
-                  {productVariants.map((variant, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleVariantSelect(variant)}
-                      className={selectedVariant === variant ? 'text-blue-500 cursor-pointer' : 'cursor-pointer'}
-                    >
-                      {variant}
-                    </li>
-                  ))}
-                </ul>
+                <h2 className="text-xl font-semibold">Variants for {selectedProduct.productname}:</h2>
+                <table className="table-auto border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2">Variant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {productVariants.map((variant, index) => (
+                      <tr
+                        key={index}
+                        onClick={() => handleVariantSelect(variant)}
+                        className={
+                          selectedVariant === variant
+                            ? 'text-blue-500 cursor-pointer bg-gray-200'
+                            : 'cursor-pointer hover:bg-gray-100 transition-colors'
+                        }
+                      >
+                        <td className="border px-4 py-2">{variant}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
             {selectedVariant && (
               <div>
                 <h2 className="text-xl font-semibold">Values for {selectedVariant}:</h2>
-                <ul>
-                  {variantValues.map((value, index) => (
-                    <li key={index}>{value}</li>
-                  ))}
-                </ul>
+                <table className="table-auto border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2">Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {variantValues.map((value, index) => (
+                      <tr key={index}>
+                        <td className="border px-4 py-2">{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
@@ -133,4 +159,4 @@ function UserPage() {
   );
 }
 
-export default UserPage;
+export default UserPage;

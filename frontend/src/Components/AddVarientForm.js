@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
+
+function AddVariantForm({ productId, onVariantAdded }) {
+  const [variantDescriptions, setVariantDescriptions] = useState([]);
+  const [newVariantDescription, setNewVariantDescription] = useState('');
+
+  const navigate=useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:3000/addvariants`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: productId,
+          variantDescriptions: variantDescriptions,
+        }),
+      });
+
+      if (response.ok) {
+        onVariantAdded();
+        window.alert("varients added sucessfully");
+        navigate('/producttable');
+      } else {
+        console.error('Failed to add variants.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    // Clear the form
+    setVariantDescriptions([]);
+    setNewVariantDescription('');
+  };
+
+  const addNewVariant = () => {
+    if (newVariantDescription.trim() !== '') {
+      setVariantDescriptions([...variantDescriptions, newVariantDescription]);
+      setNewVariantDescription('');
+    }
+  };
+
+  return (
+    <div className="bg-white p-4 rounded shadow">
+      <h2 className="text-lg text-black  font-semibold mb-4">Add Variants for Product ID: {productId}</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="flex mb-4">
+          <input
+            type="text"
+            placeholder="Enter Variant Description"
+            className="w-1/2 border p-2 rounded-l focus:outline-none focus:ring focus:border-blue-300 text-black"
+            value={newVariantDescription}
+            onChange={(e) => setNewVariantDescription(e.target.value)}
+          />
+          <button
+            type="button"
+            className="w-1/6 bg-blue-500 text-white p-3 rounded-r hover:bg-blue-700 focus:outline-none text-black ml-5"
+            onClick={addNewVariant}
+          >
+            Add
+          </button>
+        </div>
+        {variantDescriptions.map((description, index) => (
+          <div key={index} className="mb-2 text-black">
+            <span className="mr-2">&#8226;</span>
+            {description}
+          </div>
+        ))}
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-700"
+        >
+          Add Variants
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default AddVariantForm;

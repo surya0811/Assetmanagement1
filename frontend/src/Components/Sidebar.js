@@ -8,18 +8,15 @@ function Sidebar({openSidebarToggle}){
     <aside id='sidebar'className={openSidebarToggle ? "sidebar-responsive":''}>  
          <div className='sidebar-title'>
             <div className='sidebar-brand'>
+                <Link to ="/purchase">
                 <BsCart3 className='icon_header'/> Purchase
+                </Link>
             </div>
             <span className='icon close_icon'>X</span>
          </div>
 
          <ul className='sidebar-list'>
-            {/* <li className='sidebar-list-items'>
-                
-            <Link to ="#">
-                <BsGrid1X2Fill className='icon'/>DashBoard
-            </Link>
-            </li> */}
+           
             <li className='sidebar-list-items'>
             <Link to ="/producttable">
                 <BsFillArchiveFill className='icon'/>product

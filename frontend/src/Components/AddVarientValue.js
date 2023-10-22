@@ -40,7 +40,7 @@ function AddVarientValue({ onSubmit }) {
     // onSubmit(productName, values);
     const purchaseData = {
       productName,
-      values,
+      variantValues: values, // Correct the object key to match the server
     };
     
     // Send the purchaseData object to the server
@@ -48,16 +48,17 @@ function AddVarientValue({ onSubmit }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       body: JSON.stringify(purchaseData),
     })
       .then((response) => response.json())
       .then((data) => {
+        
         if (data.message === 'Purchase data saved successfully.') {
-          // Handle success
-          // Optionally, you can reset the form or perform other actions here.
+            alert("Varient values added sucessfully");
         } else {
-          // Handle error
+          console.log('Error:', data.error || 'Unknown error');
         }
       })
       .catch((error) => {

@@ -64,12 +64,21 @@ body{
   font-weight: 700;
 }
 .sidebar-list{
+  display:grid;
   padding:0;
   list-style-type:none;
 }
 .sidebar-list-items{
+  display:inline-flex;
   padding: 20px 20px 20px 20px;
   font-size: 20px;
+}
+.icon {
+  display: inline;
+  
+}
+.icon_header {
+  display: inline;
 }
 .sidebar-list-items:hover{
   background-color: rgba(11, 10, 10, 0.2);
@@ -228,3 +237,5 @@ margin:15px 0;
   display: inline;
 }
 }
+
+ 

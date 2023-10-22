@@ -98,12 +98,12 @@ function PurchaseForm({ onSubmit }) {
 
   return (
     <div className="mt-4">
-      <h2 className="text-xl font-bold mb-2 text-black text-center">Purchase Product</h2>
+      <h2 className="text-4xl font-bold mb-2 text-black text-center">Purchase Product</h2>
       <form onSubmit={handleSubmit}>
         <label className="block mb-2 text-black">
           Product Name:
           <input
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="w-1/2 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             type="text"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
@@ -114,30 +114,31 @@ function PurchaseForm({ onSubmit }) {
       {noProductFound && <p className="mt-2 text-red-700">No product found with the specified name.</p>}
       {variants.length > 0 && (
         <div className="mt-4">
-          <p className="text-xl font-bold mb-2 text-black text-center">Product Variants</p>
+          <p className="text-3xl font-bold mb-2 text-black text-center text-uppercase">Product Variants</p>
           <form onSubmit={handleSubmit}>
           {variants.map((variant, index) => (
-  <div key={index} className="mb-4">
-    <label className="block mb-2 text-black">{variant}:</label>
-    <select
-      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-black"
-      value={variantValues[variant]}
-      onChange={(e) => handleInputChange(variant, e)}
-    >
-      <option value="">Select a value</option>
-      {Array.isArray(variantValues[variant]) &&
-        variantValues[variant].map((value, valueIndex) => (
-          <option key={valueIndex} value={value}>
-            {value}
-          </option>
-        ))}
-    </select>
-    {variantValues[variant] && (
-      <p className="mt-2 text-green-700">
-        Selected: {variantValues[variant]}
-      </p>
-    )}
-  </div>
+ <div key={index} className="mb-4 flex items-center mb-2">
+ <label className="block mb-2 text-black font-bold mr-2">{variant}:</label>
+ <select
+   className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-black"
+   value={variantValues[variant]}
+   onChange={(e) => handleInputChange(variant, e)}
+ >
+   <option value="">Select a value</option>
+   {Array.isArray(variantValues[variant]) &&
+     variantValues[variant].map((value, valueIndex) => (
+       <option key={valueIndex} value={value}>
+         {value}
+       </option>
+     ))}
+ </select>
+ {variantValues[variant] && (
+   <p className="mt-2 text-green-700 mr-2">
+     Selected: {variantValues[variant]}
+   </p>
+ )}
+</div>
+
 ))}
                 
             <button

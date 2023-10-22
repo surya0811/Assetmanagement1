@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';import './App1.css';
 
 function UserPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -66,97 +66,93 @@ function UserPage() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <header className="bg-blue-500 p-4 text-white text-center">
-        <h1 className="text-2xl font-bold">Welcome to Our Products</h1>
-      </header>
-      <div className="container mx-auto py-4">
-        <div className="flex">
-          <div className="flex items-center justify-end mb-4 w-1/2">
-            <input
-              type="text"
-              placeholder="Search for products..."
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button
-              className="bg-blue-500 text-white font-semibold py-2 px-4 ml-2 rounded-lg hover:bg-blue-700"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
-          <div className="w-1/2 p-4">
-            {searchResults.length > 0 && (
-              <div>
-                <h2 className="text-xl font-semibold">Search Results:</h2>
-                {searchResults.map((result, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleProductClick(result)}
-                    className="cursor-pointer border p-2 my-2 rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    <div className="bg-white p-4 rounded-lg shadow-md">
-                      <h3 className="text-xl font-semibold">{result.productname}</h3>
-                      <p className="text-gray-500">{result.productid}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="w-1/2 p-4">
-            {selectedProduct && (
-              <div>
-                <h2 className="text-xl font-semibold">Variants for {selectedProduct.productname}:</h2>
-                <table className="table-auto border-collapse">
-                  <thead>
-                    <tr>
-                      <th className="px-4 py-2">Variant</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {productVariants.map((variant, index) => (
-                      <tr
-                        key={index}
-                        onClick={() => handleVariantSelect(variant)}
-                        className={
-                          selectedVariant === variant
-                            ? 'text-blue-500 cursor-pointer bg-gray-200'
-                            : 'cursor-pointer hover:bg-gray-100 transition-colors'
-                        }
-                      >
-                        <td className="border px-4 py-2">{variant}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-            {selectedVariant && (
-              <div>
-                <h2 className="text-xl font-semibold">Values for {selectedVariant}:</h2>
-                <table className="table-auto border-collapse">
-                  <thead>
-                    <tr>
-                      <th className="px-4 py-2">Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {variantValues.map((value, index) => (
-                      <tr key={index}>
-                        <td className="border px-4 py-2">{value}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+   <header className="bg-blue-500 p-5 text-white">
+      <h1 className="text-4xl font-bold text-uppercase">ASSET MANAGEMENT SYSTEM</h1>
+    </header> 
+ <div className="container mx-auto py-4">
+      <div className="flex flex-col">
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search for products..."
+            className="w-1/5 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button
+            className="bg-blue-500 text-white font-semibold py-2 px-4 mt-2 rounded-lg hover:bg-blue-700"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
         </div>
+        {searchResults.length > 0 && (
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold">Search Results:</h2>
+            {searchResults.map((result, index) => (
+              <div
+                key={index}
+                onClick={() => handleProductClick(result)}
+                className="w-1/4 mb-4 cursor-pointer border p-2 my-2 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                <div className="bg-white p-2 rounded-lg shadow-md">
+                  <h3 className="text-xl font-semibold">{result.productName}</h3>
+                  <p className="text-gray-700">{result.productid}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {selectedProduct && (
+          <div className="w-1/4 mb-6">
+            <h2 className="text-xl font-semibold">Variants for {selectedProduct.productName}:</h2>
+            <table className="table-auto border-collapse">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2">Variant</th>
+                </tr>
+              </thead>
+              <tbody>
+                {productVariants.map((variant, index) => (
+                  <tr
+                    key={index}
+                    onClick={() => handleVariantSelect(variant)}
+                    className={
+                      selectedVariant === variant
+                        ? 'text-blue-500 cursor-pointer bg-gray-200'
+                        : 'cursor-pointer hover:bg-gray-100 transition-colors'
+                    }
+                  >
+                    <td className="border px-4 py-2">{variant}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {selectedVariant && (
+          <div >
+            <h2 className="text-xl font-semibold">Values for {selectedVariant}:</h2>
+            <table className="table-auto border-collapse">
+              <thead>
+                <tr>
+                  <th className="px-5 py-2">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {variantValues.map((value, index) => (
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
-  );
-}
+  </div>
+  
+  )};  
 
 export default UserPage;

@@ -220,7 +220,7 @@ app.get('/product/variants/:productName', (req, res) => {
 app.post('/purchase', (req, res) => {
   const { productName, variantValues } = req.body;
 
-  const sql = 'INSERT INTO `keys` (productname, variant, value) VALUES ?';
+  const sql = 'INSERT INTO `keys` (productName, variant, value) VALUES ?';
 
   const valuesToInsert = Object.entries(variantValues).map(([variant, value]) => [
     productName,

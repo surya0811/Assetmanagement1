@@ -3,18 +3,11 @@ import React, { useState, useEffect } from 'react';
 function PurchaseForm({ onSubmit }) {
   const [productName, setProductName] = useState('');
   const [variants, setVariants] = useState([]);
-  const [variantValues, setVariantValues] = useState(
-    variants.reduce((acc, variant) => {
-      acc[variant] = '';
-      return acc;
-    }, {})
-  );
-  
+  const [variantValues, setVariantValues] = useState({});
   const [noProductFound, setNoProductFound] = useState(false);
-  
 
   useEffect(() => {
-    // Fetch variants and their values from the backend when the productName changes
+    
     if (productName) {
       fetch(`http://localhost:3000/product/variants/${productName}`)
         .then((response) => response.json())
@@ -30,7 +23,7 @@ function PurchaseForm({ onSubmit }) {
                   .then((response) => response.json())
                   .then((valuesData) => ({
                     variant,
-                    values: valuesData.values || [], // Ensure values is an array
+                    values: valuesData.values || [], 
                   }))
               );
 
@@ -55,26 +48,46 @@ function PurchaseForm({ onSubmit }) {
     }
   }, [productName]);
 
-  const handleInputChange = (variant, e) => {
-    const newValue = e.target.value;
-    setVariantValues((prevValues) => ({
-      ...prevValues,
-      [variant]: newValue,
-    }));
+  // const handleInputChange = (variant, e) => {
+  //   const newValue = e.target.value;
+  //   setVariantValues((prevValues) => ({
+  //     ...prevValues,
+  //     [variant]: newValue,
+  //   }));
+  // };
 
+  const handleInputChange = (variant, value) => {
+    setVariantValues((prevValues) => {
+      const selectedValues = prevValues[variant] || [];
+      if (selectedValues.includes(value)) {
+        return {
+          ...prevValues,
+          [variant]: selectedValues.filter((v) => v !== value),
+        };
+      } else {
+        return {
+          ...prevValues,
+          [variant]: [...selectedValues, value],
+        };
+      }
+    });
   };
   
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Submit the form with the values
-    // onSubmit(productName, variantValues);
-
+  
+    const selectedValues = {};
+  
+    variants.forEach((variant) => {
+      selectedValues[variant] = variantValues[variant] || [];
+    });
+  
     const purchaseData = {
       productName,
-      variantValues,
+      variantValues: selectedValues,
     };
-
+  
     // Send the purchaseData object to the server
     fetch('http://localhost:3000/purchase', {
       method: 'POST',
@@ -86,24 +99,48 @@ function PurchaseForm({ onSubmit }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.message === 'Purchase data saved successfully.') {
-         alert('Purchase data saved successfully.')
+          // Fetch and display the details using the selected values
+          fetchDetails(selectedValues);
         } else {
-          
+          // Handle error or display a message
         }
       })
       .catch((error) => {
         console.error('Error submitting purchase:', error);
       });
   };
+  
+  const fetchDetails = (selectedValues) => {
+    // Make an API call to fetch details using the selected values
+    fetch(`http://localhost:3000/fetchDetails`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedValues),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update your component state with the fetched data and display it
+        console.log('Fetched details:', data);
+        // Update your component state and display the fetched data
+      })
+      .catch((error) => {
+        console.error('Error fetching details:', error);
+      });
+  };
+  
 
   return (
-    <div className="mt-4">
-      <h2 className="text-4xl font-bold mb-2 text-black text-center">Purchase Product</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="mt-4 w-1/4">
+      <header className="bg-blue-500 pt-1 p-2 text-white">
+      <h1 className="text-4xl font-bold text-uppercase">Search</h1>
+    </header> 
+      <form onSubmit={handleSubmit}className="mt-4">
         <label className="block mb-2 text-black">
           Product Name:
           <input
-            className="w-1/2 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+             className="w-1/2 px-2 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             type="text"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
@@ -114,33 +151,31 @@ function PurchaseForm({ onSubmit }) {
       {noProductFound && <p className="mt-2 text-red-700">No product found with the specified name.</p>}
       {variants.length > 0 && (
         <div className="mt-4">
-          <p className="text-3xl font-bold mb-2 text-black text-center text-uppercase">Product Variants</p>
+          <p className="text-xl font-bold mb-2 text-black text-center">Product Variants</p>
           <form onSubmit={handleSubmit}>
           {variants.map((variant, index) => (
- <div key={index} className="mb-4 flex items-center mb-2">
- <label className="block mb-2 text-black font-bold mr-2">{variant}:</label>
- <select
-   className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-black"
-   value={variantValues[variant]}
-   onChange={(e) => handleInputChange(variant, e)}
- >
-   <option value="">Select a value</option>
-   {Array.isArray(variantValues[variant]) &&
-     variantValues[variant].map((value, valueIndex) => (
-       <option key={valueIndex} value={value}>
-         {value}
-       </option>
-     ))}
- </select>
- {variantValues[variant] && (
-   <p className="mt-2 text-green-700 mr-2">
-     Selected: {variantValues[variant]}
-   </p>
- )}
-</div>
-
+  <div key={index} className="mb-4">
+    <p className="block mb-2 text-black">{variant}:</p>
+    {Array.isArray(variantValues[variant]) &&
+      variantValues[variant].map((value, valueIndex) => (
+        <label key={valueIndex} className="block">
+          <input
+            type="checkbox"
+            checked={variantValues[variant].includes(value)}
+            onChange={() => handleInputChange(variant, value)}
+            className="mr-2"
+          />
+          {value}
+        </label>
+      ))}
+    {variantValues[variant] && variantValues[variant].length > 0 && (
+      <p className="mt-2 text-green-700">
+        Selected: {variantValues[variant].join(', ')}
+      </p>
+    )}
+  </div>
 ))}
-                
+
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               type="submit"

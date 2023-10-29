@@ -66,10 +66,11 @@ function UserPage() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-   <header className="bg-blue-500 p-5 text-white">
+   <header className="bg-blue-500 p-4 text-white">
       <h1 className="text-4xl font-bold text-uppercase">ASSET MANAGEMENT SYSTEM</h1>
     </header> 
- <div className="container mx-auto py-4">
+    
+    <div className="container mx-auto py-4 ">
       <div className="flex flex-col">
         <div className="mb-4">
           <input
@@ -129,6 +130,7 @@ function UserPage() {
               </tbody>
             </table>
           </div>
+      
         )}
         {selectedVariant && (
           <div >

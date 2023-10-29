@@ -217,27 +217,48 @@ app.get('/product/variants/:productName', (req, res) => {
 
 // Endpoint to save the purchase data
 // Endpoint to save the purchase data
+// Handle the purchase request
 app.post('/purchase', (req, res) => {
   const { productName, variantValues } = req.body;
 
-  const sql = 'INSERT INTO `keys` (productName, variant, value) VALUES ?';
+  const selectedDetails = {};
+  const totalVariants = Object.keys(variantValues).length;
 
-  const valuesToInsert = Object.entries(variantValues).map(([variant, value]) => [
-    productName,
-    variant,
-    value,
-  ]);
+  const fetchDetailsForVariant = (variant) => {
+    const values = variantValues[variant].join("','");
+    const sql = 'SELECT id, productName, value FROM `keys` WHERE productName = ? AND variant = ? AND value IN (?)';
 
-  connection.query(sql, [valuesToInsert], (err, result) => {
-    if (err) {
-      console.error('Error inserting purchase data:', err);
-      res.status(500).json({ error: 'Failed to save purchase data.' });
-    } else {
+    connection.query(sql, [productName, variant, values], (err, rows) => {
+      if (err) {
+        console.error('Error fetching details:', err);
+        res.status(500).json({ error: 'Failed to fetch details.' });
+      } else {
+        selectedDetails[variant] = rows.map((row) => row.value);
+        if (Object.keys(selectedDetails).length === totalVariants) {
+          // Check if all queries have finished and send the response
+          if (Object.values(selectedDetails).some((value) => value.length === 0)) {
+            // If there are no results for any variant, return an error
+            res.status(404).json({ error: 'No matching product found.' });
+          } else {
+            res.json(selectedDetails);
+            console.log(selectedDetails,productName);
+           
 
-      res.status(200).json({ message: 'Purchase data saved successfully.' });
-    }
-  });
+          }
+        }
+      }
+    });
+  };
+
+  for (const variant in variantValues) {
+    fetchDetailsForVariant(variant);
+  }
 });
+
+
+
+
+
   
 app.get('/variants/:productId', (req, res) => {
   const { productId } = req.params;

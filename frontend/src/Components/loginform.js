@@ -25,7 +25,7 @@ const LoginForm = () => {
       setMessage(data.message);
       if (data.message === 'Login successful') {
         alert("Login successful"); 
-        navigate('./dashboard');
+        navigate('/dashboard');
     }
     } catch (error) {
       console.error('Error logging in:', error);

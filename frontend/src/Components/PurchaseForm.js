@@ -73,14 +73,18 @@ function PurchaseForm({ onSubmit }) {
     });
   };
   
-  
   const handleSubmit = (e) => {
     e.preventDefault();
   
     const selectedValues = {};
   
     variants.forEach((variant) => {
-      selectedValues[variant] = variantValues[variant] || [];
+      if (!variantValues[variant]) {
+        // If variantValues[variant] is falsy, set it to an empty string
+        selectedValues[variant] = '';
+      } else {
+        selectedValues[variant] = variantValues[variant].join(', ');
+      }
     });
   
     const purchaseData = {
@@ -99,6 +103,7 @@ function PurchaseForm({ onSubmit }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.message === 'Purchase data saved successfully.') {
+            alert("purchase data added sucessfully");
           // Fetch and display the details using the selected values
           fetchDetails(selectedValues);
         } else {
@@ -109,6 +114,7 @@ function PurchaseForm({ onSubmit }) {
         console.error('Error submitting purchase:', error);
       });
   };
+  
   
   const fetchDetails = (selectedValues) => {
     // Make an API call to fetch details using the selected values
@@ -157,24 +163,27 @@ function PurchaseForm({ onSubmit }) {
   <div key={index} className="mb-4">
     <p className="block mb-2 text-black">{variant}:</p>
     {Array.isArray(variantValues[variant]) &&
-      variantValues[variant].map((value, valueIndex) => (
-        <label key={valueIndex} className="block">
-          <input
-            type="checkbox"
-            checked={variantValues[variant].includes(value)}
-            onChange={() => handleInputChange(variant, value)}
-            className="mr-2"
-          />
-          {value}
-        </label>
-      ))}
+      variantValues[variant]
+        .filter((value) => value !== '') 
+        .map((value, valueIndex) => (
+          <label key={valueIndex} className="block">
+            <input
+              type="checkbox"
+              checked={variantValues[variant].includes(value)}
+              onChange={() => handleInputChange(variant, value)}
+              className="mr-2"
+            />
+            {value}
+          </label>
+        ))}
     {variantValues[variant] && variantValues[variant].length > 0 && (
       <p className="mt-2 text-green-700">
-        Selected: {variantValues[variant].join(', ')}
+        Selected: {variantValues[variant].filter((value) => value !== '').join(', ')}
       </p>
     )}
   </div>
 ))}
+
 
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

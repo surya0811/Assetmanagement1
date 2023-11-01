@@ -4,7 +4,8 @@ import AddProductForm from './AddProductForm';
 import PurchaseForm from './PurchaseForm'; 
 import AddVarientForm from './AddVarientForm';
 import AddVarientValue from './AddVarientValue';
-
+import sucessimage from '../images/sucess2.jpeg';
+import "./Style.css";
 
 function ProductTable() {
   const [data, setData] = useState([]);
@@ -64,32 +65,39 @@ function ProductTable() {
     }};
 
   return (
-    <div className="p-4 bg-gray-100">
+    <div
+    className="p-4 bg-gray-100 "
+    style={{
+      backgroundImage: `url(${sucessimage})`,
+      backgroundSize: 'cover',
+      
+    }}
+  >
       <div className="flex justify-between items-center mb-4 text-black">
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
           onClick={handlePurchaseClick}
         >
           <FaShoppingCart className="mr-2" /> Purchase
         </button>
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-900 hover:bg-green-700 text-white font-bold py-2 px-3 rounded ml-4"
           onClick={handleAddVarientValueClick}
         >
           <FaShoppingCart className="mr-2" /> varientvalue
         </button>
-        <h1 className="text-4xl font-bold text-center uppercase text-purple-500 shadow-2xl perspective shadow-xl">
-  Product information
+        <h1 className="text-5xl font-bold text-center uppercase text-red-500 shadow-2xl perspective shadow-xl">
+  Product @info
 </h1>
 
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleToggleForm}
         >
           <FaPlus className="mr-2" /> Add New Product
         </button>
       </div>
-      <table className="border-collapse border w-full bg-black">
+      <table className="border-collapse border w-full bg-black mt-7">
         <thead>
           <tr className="bg-yellow-100 text-red-500 text-lg uppercase">
             <th className="border p-2">ID</th>
@@ -104,7 +112,7 @@ function ProductTable() {
               <td className="border p-2 text-white">{d.productName}</td>
               <td className="border p-2">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={() => handleAddVariant(d)}
                 >
                   Add Variant
@@ -114,8 +122,10 @@ function ProductTable() {
           ))}
         </tbody>
       </table>
-      <span className="text-400 text-blue-900 text-center uppercase">
-  Click "Add Variants" for the suitable product you want.</span>
+      <span className="text-800 text-red-500 text-center uppercase font-bold marquee">
+  Click "Add Variants" for the suitable product you want.
+</span>
+
       {showForm && <AddProductForm />}
       {showPurchaseForm && <PurchaseForm onSubmit={handlePurchaseSubmit} />}
       {showAddVarientValueForm && <AddVarientValue onSubmit={handleAddVarientValueSubmit}  />}
@@ -125,21 +135,7 @@ function ProductTable() {
           onVariantAdded={handleVariantAdded}
         />
       )}
-      {/* {variantsData && variantsData.length > 0 ? (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold mb-2">Variants</h2>
-          <ul>
-            {variantsData.map((variant, index) => (
-              <li key={index}>{variant.variant_description}</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <span className="text-400 text-black text-center uppercase">
-  Click "Add Variants" for the suitable product you want.
-</span>
-
-      )} */}
+     
     </div>
   );
 }

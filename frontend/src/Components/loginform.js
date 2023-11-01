@@ -24,6 +24,7 @@ const LoginForm = () => {
     
       setMessage(data.message);
       if (data.message === 'Login successful') {
+       
         alert("Login successful"); 
         navigate('/dashboard');
     }
@@ -35,6 +36,8 @@ const LoginForm = () => {
   };
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
+
+
   const handleSignup = () => {
     
     navigate('/registration');

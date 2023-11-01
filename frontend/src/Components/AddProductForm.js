@@ -34,20 +34,21 @@ function AddProductForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-screen-md mx-auto p-4 bg-white rounded-lg shadow-md text-black">
-        <h2 className="text-2xl font-semibold mb-5 text-center uppercase">Add New Product</h2>
+      <div className="w-full max-w-screen-md mx-auto p-4 bg-white rounded-lg shadow-md text-black border border-purple-900 ">
+        <h2 className="text-3xl font-semibold mb-5 text-center uppercase">Add New Product</h2>
         <form onSubmit={handleProductSubmit}>
-          <label className="block mb-2 ">
-            Product Name:
+          <label className=" text-xl block mb-3 ">
+            Product Name
             <input
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-5 py-2 border rounded-lg focus:outline-none focus:ring focus:border-red-300 mb-2"
               type="text"
               value={productName}
+              placeholder='give your product name '
               onChange={(e) => setProductName(e.target.value)}
             />
           </label>
 
-          <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 uppercase" type="submit" >
+          <button className="w-full bg-blue-500:hover bg-green-500 text-white py-2 rounded-lg hover:bg-blue-600 uppercase mb-2" type="submit" >
             submit
           </button>
         </form>

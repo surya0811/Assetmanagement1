@@ -46,20 +46,20 @@ function AddVariantForm({ productId, onVariantAdded }) {
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow">
-      <h2 className="text-lg text-black  font-semibold mb-4">Add Variants for Product ID: {productId}</h2>
+    <div className="bg-gradient-to-r from-blue-600 via-green-500 to-yellow-400 p-4 rounded shadow">
+      <h2 className="text-xl text-black  font-semibold mb-4">Add Variants for Product ID: {productId}</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex mb-4">
           <input
             type="text"
-            placeholder="Enter Variant Description"
+            placeholder="Enter Variant Name For Product"
             className="w-1/2 border p-2 rounded-l focus:outline-none focus:ring focus:border-blue-300 text-black"
             value={newVariantDescription}
             onChange={(e) => setNewVariantDescription(e.target.value)}
           />
           <button
             type="button"
-            className="w-1/6 bg-blue-500 text-white p-3 rounded-r hover:bg-blue-700 focus:outline-none text-black ml-5"
+            className="w-1/6 bg-blue-500 text-white p-3 rounded-r hover:bg-purple-700 focus:outline-none text-black ml-5"
             onClick={addNewVariant}
           >
             Add
@@ -73,7 +73,7 @@ function AddVariantForm({ productId, onVariantAdded }) {
         ))}
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 mt-4 rounded hover:bg-blue-700"
+          className="bg-blue-500 hover:bg-gradient-to-r from-green-600 via-blue-500 to-yellow-400 text-black py-2 px-4 mt-4 rounded font-bold"
         >
           Add Variants
         </button>

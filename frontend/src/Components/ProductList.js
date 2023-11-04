@@ -6,6 +6,8 @@ import AddVarientForm from './AddVarientForm';
 import AddVarientValue from './AddVarientValue';
 import sucessimage from '../images/sucess2.jpeg';
 import "./Style.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function ProductTable() {
   const [data, setData] = useState([]);
@@ -63,6 +65,35 @@ function ProductTable() {
         .then((data) => {setVariantsData(data);})
         .catch((err) => console.log(err));
     }};
+useEffect(() => {
+  if (showPurchaseForm) {
+    // Scroll to the element with id "purchase-form" when showPurchaseForm changes
+    const purchaseFormElement = document.getElementById('purchase-form');
+    if (purchaseFormElement) {
+      purchaseFormElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}, [showPurchaseForm]);
+
+useEffect(() => {
+  if (showForm) {
+    // Scroll to the element with id "add-product-form" when showForm changes
+    const addProductFormElement = document.getElementById('add-product-form');
+    if (addProductFormElement) {
+      addProductFormElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}, [showForm]);
+
+useEffect(() => {
+  if (showAddVarientValueForm) {
+    // Scroll to the element with id "add-varient-value-form" when showAddVarientValueForm changes
+    const addVarientValueFormElement = document.getElementById('add-varient-value-form');
+    if (addVarientValueFormElement) {
+      addVarientValueFormElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}, [showAddVarientValueForm]);
 
   return (
     <div
@@ -115,7 +146,8 @@ function ProductTable() {
                   className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={() => handleAddVariant(d)}
                 >
-                  Add Variant
+                   <FontAwesomeIcon icon={faPlus} className="mr-2" />
+                      Add Product
                 </button>
               </td>
             </tr>
@@ -135,8 +167,12 @@ function ProductTable() {
           onVariantAdded={handleVariantAdded}
         />
       )}
-     
-    </div>
+ 
+ <div id="purchase-form"></div>
+ <div id="add-product-form"></div>
+<div id="add-varient-value-form"></div>
+    </div>
+    
   );
 }
     

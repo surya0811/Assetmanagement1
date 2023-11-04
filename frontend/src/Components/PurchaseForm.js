@@ -142,60 +142,61 @@ function PurchaseForm({ onSubmit }) {
   return (
     <div className="mt-4 w-1/4">
       <header className="bg-gradient-to-r from-blue-600 via-green-500 to-yellow-400 pt-1 p-2 text-white">
-      <h1 className="text-4xl font-bold uppercase text-black">Search</h1>
-    </header> 
-      <form onSubmit={handleSubmit}className="mt-4">
+        <h1 className="text-4xl font-bold uppercase text-black">Search</h1>
+      </header>
+      <form onSubmit={handleSubmit} className="mt-4">
         <label className="block mb-4 text-black-800 font-bold">
           Product Name:
           <input
-             className="w-1/2 px-2 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 mb-3"
+            className="w-1/2 px-2 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 mb-3"
             type="text"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
             required
           />
         </label>
-      </form>
-      {noProductFound && <p className="mt-2 text-red-700">No product found with the specified name.</p>}
-      {variants.length > 0 && (
-        <div className="mt-4">
-          <p className="text-xl font-bold mb-2 text-black-800 text-center">Product Variants</p>
-          <form onSubmit={handleSubmit}>
-          {variants.map((variant, index) => (
-  <div key={index} className="mb-4">
-    <p className="block mb-2 text-black-800 font-bold uppercase">{variant}:</p>
-    {Array.isArray(variantValues[variant]) &&
-      variantValues[variant]
-        .filter((value) => value !== '') 
-        .map((value, valueIndex) => (
-          <label key={valueIndex} className="block">
-            <input
-              type="checkbox"
-              checked={variantValues[variant].includes(value)}
-              onChange={() => handleInputChange(variant, value)}
-              className="mr-2"
-            />
-            {value}
-          </label>
-        ))}
-    {variantValues[variant] && variantValues[variant].length > 0 && (
-      <p className="mt-2 text-green-800 font-bold">
-        Selected: {variantValues[variant].filter((value) => value !== '').join(', ')}
-      </p>
-    )}
-  </div>
-))}
 
-
+        {noProductFound && (
+          <p className="mt-2 text-red-700">No product found with the specified name.</p>
+        )}
+        {variants.length > 0 && (
+          <div className="mt-4">
+            <p className="text-xl font-bold mb-2 text-black-800 text-center">Product Variants</p>
+            {variants.map((variant, index) => (
+              <div key={index} className="mb-4">
+                <p className="block mb-2 text-black-800 font-bold uppercase">{variant}:</p>
+                {Array.isArray(variantValues[variant]) &&
+                  variantValues[variant]
+                    .filter((value) => value !== '')
+                    .map((value, valueIndex) => (
+                      <label key={valueIndex} className="block">
+                        <input
+                          type="radio"
+                          name={`variant-${variant}-${valueIndex}`} // Ensure it's unique for each group
+                          value={value}
+                          checked={variantValues[variant].includes(value)===Option.value}
+                          onChange={() => handleInputChange(variant, value)}
+                          className="mr-2"
+                        />
+                        {value}
+                      </label>
+                    ))}
+                {variantValues[variant] && variantValues[variant].length > 0 && (
+                  <p className="mt-2 text-green-800 font-bold">
+                    Selected: {variantValues[variant].filter((value) => value !== '').join(', ')}
+                  </p>
+                )}
+              </div>
+            ))}
             <button
               className="bg-blue-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
             >
               Submit
             </button>
-          </form>
-        </div>
-      )}
+          </div>
+        )}
+      </form>
     </div>
   );
 }

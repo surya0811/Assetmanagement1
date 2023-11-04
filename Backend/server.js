@@ -373,6 +373,27 @@ app.get('/variants/:variant/values', (req, res) => {
   });
 });
 
+
+
+//delete variants selection 
+
+app.get('/variants1/:productId', (req, res) => {
+  const { productId } = req.params;
+  const sql = 'SELECT variant FROM varients WHERE productid = ?';
+
+  connection.query(sql, [productId], (err, results) => {
+    if (err) {
+      console.error('Error fetching variants:', err);
+      return res.status(500).json({ error: 'Failed to fetch variants.' });
+    }
+
+    // Extract the variant descriptions from the results
+    const variant = results.map((row) => row.variant);
+
+    res.status(200).json(variant);
+  });
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

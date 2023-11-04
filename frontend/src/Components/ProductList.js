@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaPlus, FaShoppingCart } from 'react-icons/fa';
+import { FaTrash,FaPlus, FaShoppingCart } from 'react-icons/fa';
 import AddProductForm from './AddProductForm';
 import PurchaseForm from './PurchaseForm'; 
 import AddVarientForm from './AddVarientForm';
@@ -8,6 +8,8 @@ import sucessimage from '../images/sucess2.jpeg';
 import "./Style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+
 
 function ProductTable() {
   const [data, setData] = useState([]);
@@ -18,6 +20,10 @@ function ProductTable() {
   const [variantsData, setVariantsData] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [showAddVarientValueForm,setShowAddVarientValueForm]=useState(false);
+  const [selectedVariants, setSelectedVariants] = useState([]);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+
+  
   
 
   useEffect(() => {
@@ -35,9 +41,14 @@ function ProductTable() {
     setShowPurchaseForm(!showPurchaseForm);
   };
 
+ 
   const handlePurchaseSubmit = (productName) => {
     setPurchasedProduct(productName);
     setShowPurchaseForm(false);
+  };
+
+  const handleAddVariant = (product) => {
+    setSelectedProductId(product.productid);
   };
 
   const handleAddVarientValueClick =() => {
@@ -50,21 +61,79 @@ function ProductTable() {
     setShowAddVarientValueForm(false);
   };
 
-  const handleAddVariant = (product) => {
-    setSelectedProductId(product.productid);
+  const handleDeleteVariant = (productId) => {
+    // Fetch variants for the selected product
+    if (productId !== null) {
+      fetch(`http://localhost:3000/variants1/${productId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setVariantsData(data);
+          setSelectedVariants(data.map((variant) => variant.id));
+          setDeleteConfirmation(true);
+          console.log('Fetched variants:', data);
+          console.log('Variant IDs:', selectedVariants);
+        })
+        .catch((err) => console.log(err));
+    }
   };
-
+  
   const handleVariantAdded = () => {
-    // Variant added, clear the selection
-    setSelectedProductId(null);
-
     // Fetch updated variants data for the selected product
     if (selectedProductId !== null) {
-        fetch(`http://localhost:3000/variants/${selectedProductId}`)
+      fetch(`http://localhost:3000/variants/${selectedProductId}`)
         .then((res) => res.json())
-        .then((data) => {setVariantsData(data);})
+        .then((data) => {
+          setVariantsData(data);
+        })
         .catch((err) => console.log(err));
-    }};
+    }
+  
+    // Variant added, clear the selection
+    setSelectedProductId(null);
+  };
+
+  const handleCheckboxChange = (variantId) => {
+    if (selectedVariants.includes(variantId)) {
+      // Deselect the variant
+      setSelectedVariants(selectedVariants.filter((id) => id !== variantId));
+    } else {
+      // Select the variant
+      setSelectedVariants([...selectedVariants, variantId]);
+    }
+  };
+
+  const handleDeleteConfirmation = () => {
+    if (selectedVariants.length === 0) {
+      return; // No variants selected for deletion
+    }
+
+    // Send a request to delete the selected variants
+    fetch('http://localhost:3000/variants/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ variantIds: selectedVariants }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          // Successfully deleted, update the UI
+          // You can choose to refresh the data or remove the deleted variants from the UI
+          setVariantsData(variantsData.filter((variant) => !selectedVariants.includes(variant.id)));
+          setSelectedVariants([]); 
+          setDeleteConfirmation(false); 
+        } else {
+          // Handle any errors, e.g., display an error message
+          console.error('Error deleting variants');
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting variants:', error);
+      });
+  };
+
+
+//use effect cases
 useEffect(() => {
   if (showPurchaseForm) {
     // Scroll to the element with id "purchase-form" when showPurchaseForm changes
@@ -96,33 +165,23 @@ useEffect(() => {
 }, [showAddVarientValueForm]);
 
   return (
-    <div
-    className="p-4 bg-gray-100 "
+    <div className="p-4 bg-gray-100"
     style={{
       backgroundImage: `url(${sucessimage})`,
       backgroundSize: 'cover',
       
     }}
-  >
-      <div className="flex justify-between items-center mb-4 text-black">
+    >
+      <div className="flex justify-between items-center mb-4">
         <button
-          className="bg-green-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           onClick={handlePurchaseClick}
         >
           <FaShoppingCart className="mr-2" /> Purchase
         </button>
+        <h2 className="text-2xl font-bold text-center">Product List</h2>
         <button
-          className="bg-blue-900 hover:bg-green-700 text-white font-bold py-2 px-3 rounded ml-4"
-          onClick={handleAddVarientValueClick}
-        >
-          <FaShoppingCart className="mr-2" /> varientvalue
-        </button>
-        <h1 className="text-5xl font-bold text-center uppercase text-red-500 shadow-2xl perspective shadow-xl">
-  Product @info
-</h1>
-
-        <button
-          className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleToggleForm}
         >
           <FaPlus className="mr-2" /> Add New Product
@@ -133,7 +192,8 @@ useEffect(() => {
           <tr className="bg-yellow-100 text-red-500 text-lg uppercase">
             <th className="border p-2">ID</th>
             <th className="border p-2">PRODUCT</th>
-            <th className="border p-2">ACTIONS</th>
+            <th className="border p-2">ADD Variants</th>
+            <th className="border p-2">DELETE Variants</th>
           </tr>
         </thead>
         <tbody>
@@ -149,32 +209,70 @@ useEffect(() => {
                    <FontAwesomeIcon icon={faPlus} className="mr-2" />
                       Add Product
                 </button>
+               
+              </td>
+              <td className="border p-2">
+                <button className="bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded" 
+                    onClick={() => handleDeleteVariant(d.productid)}>
+                  <FaTrash className="mr-2" />
+                  Delete Variants
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <span className="text-800 text-red-500 text-center uppercase font-bold marquee">
+      <br />
+      
+        <span className="text-800 text-red-500 text-center uppercase font-bold marquee">
   Click "Add Variants" for the suitable product you want.
 </span>
-
+       
       {showForm && <AddProductForm />}
       {showPurchaseForm && <PurchaseForm onSubmit={handlePurchaseSubmit} />}
       {showAddVarientValueForm && <AddVarientValue onSubmit={handleAddVarientValueSubmit}  />}
+
       {selectedProductId !== null && (
         <AddVarientForm
           productId={selectedProductId}
           onVariantAdded={handleVariantAdded}
         />
       )}
- 
+      {deleteConfirmation && (
+        <div className="mt-4 bg-gradient-to-r from-yellow-600 via-blue-500 to-green-400 p-4 rounded shadow">
+          <h2 className="text-xl text-black  font-semibold mb-4 uppercase font-bold">
+            Delete Variants
+          </h2>
+          {variantsData.length > 0 ? (
+            <div>
+              {variantsData.map((variant) => (
+  <label key={variant} className="block mt-2 text-black">
+    <input
+      type="checkbox"
+      checked={selectedVariants.includes(variant)}
+      onChange={() => handleCheckboxChange(variant)}
+      className="mr-2 text-black-500"
+    />
+    {variant}
+  </label>
+))}
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleDeleteConfirmation}
+              >
+                Delete Selected Variants
+              </button>
+            </div>
+          ) : (
+            <p className="text-red-700">No variants found for deletion.</p>
+          )}
+        </div>
+      )}
+       
  <div id="purchase-form"></div>
  <div id="add-product-form"></div>
 <div id="add-varient-value-form"></div>
-    </div>
-    
+    </div>
   );
 }
-    
-
 export default ProductTable;

@@ -106,7 +106,10 @@ function ProductTable() {
     if (selectedVariants.length === 0) {
       return; // No variants selected for deletion
     }
-
+  
+    // Log the selected variants before sending the request
+    console.log('Selected Variants:', selectedVariants);
+  
     // Send a request to delete the selected variants
     fetch('http://localhost:3000/variants/delete', {
       method: 'DELETE',
@@ -120,8 +123,9 @@ function ProductTable() {
           // Successfully deleted, update the UI
           // You can choose to refresh the data or remove the deleted variants from the UI
           setVariantsData(variantsData.filter((variant) => !selectedVariants.includes(variant.id)));
-          setSelectedVariants([]); 
-          setDeleteConfirmation(false); 
+          setSelectedVariants([]);
+          setDeleteConfirmation(false);
+          
         } else {
           // Handle any errors, e.g., display an error message
           console.error('Error deleting variants');
@@ -131,7 +135,6 @@ function ProductTable() {
         console.error('Error deleting variants:', error);
       });
   };
-
 
 //use effect cases
 useEffect(() => {

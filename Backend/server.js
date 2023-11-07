@@ -11,7 +11,7 @@ const port = 3000; // You can change this to your desired port
 app.use(cors(
     {
         origin:["http://localhost:3001"],
-        methods:["POST","GET","PUT"],
+        methods:["POST","GET","PUT","DELETE"],
         credentials:true
     }
 ));
@@ -391,6 +391,29 @@ app.get('/variants1/:productId', (req, res) => {
     const variant = results.map((row) => row.variant);
 
     res.status(200).json(variant);
+  });
+});
+
+// Define a route to handle the DELETE request
+app.delete('/variants/delete', (req, res) => {
+  const { variantIds } = req.body;
+
+  // Check if variantIds is an array
+  if (!Array.isArray(variantIds) || variantIds.length === 0) {
+    return res.status(400).json({ error: 'Invalid variant IDs provided' });
+  }
+
+  // Construct a SQL query to delete the selected variants
+  const deleteQuery = 'DELETE FROM varients WHERE variant IN (?)';
+
+  connection.query(deleteQuery, [variantIds], (err, result) => {
+    if (err) {
+      console.error('Error deleting variants:', err);
+      return res.status(500).json({ error: 'Failed to delete variants' });
+    }
+
+    // Successful deletion
+    res.status(200).json({ message: 'Variants deleted successfully' });
   });
 });
 

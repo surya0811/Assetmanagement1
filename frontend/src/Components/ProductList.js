@@ -8,8 +8,7 @@ import sucessimage from '../images/sucess2.jpeg';
 import "./Style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
-
+import CustomAlert from "./CustomAlert";
 
 function ProductTable() {
   const [data, setData] = useState([]);
@@ -22,6 +21,9 @@ function ProductTable() {
   const [showAddVarientValueForm,setShowAddVarientValueForm]=useState(false);
   const [selectedVariants, setSelectedVariants] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [showCustomAlert, setShowCustomAlert] = useState(false);
+  const [userConfirmedDeletion, setUserConfirmedDeletion] = useState(false);
+
 
   
   
@@ -106,7 +108,10 @@ function ProductTable() {
     if (selectedVariants.length === 0) {
       return; // No variants selected for deletion
     }
-  
+    
+  setShowCustomAlert(true);
+};
+  const handleDeleteOperation = () => {
     // Log the selected variants before sending the request
     console.log('Selected Variants:', selectedVariants);
   
@@ -125,7 +130,7 @@ function ProductTable() {
           setVariantsData(variantsData.filter((variant) => !selectedVariants.includes(variant.id)));
           setSelectedVariants([]);
           setDeleteConfirmation(false);
-          
+          alert("Varients deleted sucessfully")
         } else {
           // Handle any errors, e.g., display an error message
           console.error('Error deleting variants');
@@ -135,6 +140,19 @@ function ProductTable() {
         console.error('Error deleting variants:', error);
       });
   };
+
+const handleCustomAlert = (confirmed) => {
+  if (confirmed) {
+    // User confirmed deletion
+    setUserConfirmedDeletion(true);
+    setShowCustomAlert(false);
+    handleDeleteOperation(); // Call your deletion operation here
+  } else {
+    // User canceled deletion
+    setShowCustomAlert(false);
+  }
+};
+
 
 //use effect cases
 useEffect(() => {
@@ -271,11 +289,18 @@ useEffect(() => {
           )}
         </div>
       )}
-       
+       {showCustomAlert && (
+  <CustomAlert
+    message="Do you want to proceed with the deletion?"
+    onOK={() => handleCustomAlert(true)}
+    onCancel={() => handleCustomAlert(false)}
+  />
+)}
+
  <div id="purchase-form"></div>
  <div id="add-product-form"></div>
 <div id="add-varient-value-form"></div>
     </div>
   );
-}
+       }
 export default ProductTable;

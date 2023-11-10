@@ -3,6 +3,7 @@ import {BsPeopleFill,BsFillBellFill} from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import ProductCard from './productCard';
 import VarientCard from './VarientCard';
+import sucessimage from '../images/dashboard.jpg';
 
 
 const Home = () => {
@@ -53,10 +54,8 @@ const Home = () => {
       ];
   return (
    
-      <main className='main-container'>
-        <div className='main-title'>
-          <h1>ASSET MANAGEMENT SYSTEM</h1>
-        </div>
+      <main className='main-container'style={{  backgroundImage: `url(${sucessimage})` }}>
+       
         <div className='main-cards'>
          
           <ProductCard />

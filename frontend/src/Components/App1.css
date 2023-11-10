@@ -42,7 +42,11 @@ body{
 #sidebar{
   grid-area:sidebar;
   height: 100%;
-  background-color: rgb(153, 233, 128);
+  /* background-color: rgb(204, 197, 57); */
+  background-image: url('../images/m.png'); /* Replace with the correct image path */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   overflow-y: auto;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -109,12 +113,13 @@ body{
   
 
 }
-.main-title h1 {
+.header-center h1 {
   font-size: 48px;
-  font-family:'Times New Roman', Times, serif;
+  font-family:sans-serif;
+  font-weight: bolder;
   white-space: 1px;
-  margin-left: 10rem;
-   color: rebeccapurple;
+  margin-left: 0rem;
+   color: rgb(139, 51, 153);
 }
 .main-cards{
   display: grid;

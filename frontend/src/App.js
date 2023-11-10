@@ -12,6 +12,8 @@ import AddVariantForm from "./Components/AddVarientForm";
 // import AddStudent from "./Components/AddStudent";
 import AddVarientValue from "./Components/AddVarientValue";
 import UserPage from "./Components/UserPage";
+import CustomAlert from "./Components/CustomAlert";
+import Report from "./Components/Report";
 
 
 function App() {
@@ -26,8 +28,8 @@ function App() {
       <Route path="/addvariants" element={<AddVariantForm/>}/>
       <Route path="/addvarientvalue" element={<AddVarientValue/>}/>
       <Route path="/search" element={<UserPage/>}/>
-      
-      
+      <Route path ="/alert" element={<CustomAlert/>}/>
+      <Route path ="/report" element = {<Report/>}/>
     </Routes>
   );
 }

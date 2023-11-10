@@ -417,6 +417,18 @@ app.delete('/variants/delete', (req, res) => {
   });
 });
 
+
+app.get('/report', (req, res) => {
+  connection.query('SELECT * FROM filterview', (error, results) => {
+    if (error) {
+      console.error('Error querying database:', error);
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

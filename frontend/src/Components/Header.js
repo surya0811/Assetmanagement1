@@ -10,6 +10,9 @@ function Header({OpenSidebar}){
       <div className='header-left'>
         <BsSearch className='icon' />
       </div>
+      <div className='header-center'>
+          <h1>ASSET MANAGEMENT SYSTEM</h1>
+      </div>
       <div className='header-right'>
         <BsFillBellFill className='icon' />
         <BsFillEnvelopeFill className='icon' />

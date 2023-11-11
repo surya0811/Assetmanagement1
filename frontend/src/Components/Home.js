@@ -1,9 +1,10 @@
 import React  from 'react';
-import {BsPeopleFill,BsFillBellFill} from 'react-icons/bs'
+import {BsFillBellFill} from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import ProductCard from './productCard';
 import VarientCard from './VarientCard';
 import sucessimage from '../images/dashboard.jpg';
+import UserCard from './usercard';
 
 
 const Home = () => {
@@ -62,14 +63,7 @@ const Home = () => {
         
           <VarientCard/>
          
-  
-          <div className='card'>
-            <div className='card-inner'>
-              <h3>USERS</h3>
-              <BsPeopleFill className='card_iicon' />
-            </div>
-            <h1>0</h1>
-          </div>
+          <UserCard/>
   
           <div className='card'>
             <div className='card-inner'>

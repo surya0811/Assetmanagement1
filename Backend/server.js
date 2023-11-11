@@ -65,6 +65,25 @@ app.get('/api/varient/count', (req, res) => {
   });
 });
 
+app.get('/api/user/count', (req, res) => {
+  const query = 'SELECT COUNT(*) as count FROM userlogin'; // Replace 'userlogins' with your actual table name
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching user login count:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (results && results.length > 0) {
+        const userLoginCount = results[0].count;
+        res.json({ count: userLoginCount });
+      } else {
+        console.error('No results found in the "userlogins" table.');
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  });
+});
+
 app.post('/loginform', (req, res) => {
   const { username, password, usertype } = req.body;
 
@@ -235,6 +254,9 @@ app.get('/product/variants/:productName', (req, res) => {
   });
 });
 
+
+
+
 // Endpoint to save the purchase data
 // Endpoint to save the purchase data
 //// Endpoint to save the purchase data
@@ -245,6 +267,7 @@ app.post('/purchase', (req, res) => {
 
   const valuesToInsert = Object.entries(variantValues).map(([variant, value]) => [
     productName,
+  
     variant,
     value,
   ]);

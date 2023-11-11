@@ -38,7 +38,7 @@ function Sidebar({openSidebarToggle}){
             </Link>
             </li>  */}
              <li className='sidebar-list-items'> 
-            <Link to ="#">
+            <Link to ="/report">
                 <BsFillMenuButtonWideFill className='icon'/>Reports
             </Link>
             </li>

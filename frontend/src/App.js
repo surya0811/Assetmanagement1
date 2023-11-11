@@ -14,7 +14,7 @@ import AddVarientValue from "./Components/AddVarientValue";
 import UserPage from "./Components/UserPage";
 import CustomAlert from "./Components/CustomAlert";
 import Report from "./Components/Report";
-
+import ProductReport from "./Components/ProductReport";
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
       <Route path="/search" element={<UserPage/>}/>
       <Route path ="/alert" element={<CustomAlert/>}/>
       <Route path ="/report" element = {<Report/>}/>
+      <Route path ="/productreport" element = {<ProductReport/>}/>
     </Routes>
   );
 }

@@ -46,6 +46,18 @@ app.get('/api/products/count', (req, res) => {
     }
   });
 });
+app.get('/api/products', (req, res) => {
+  const query = 'SELECT * FROM products'; // Replace 'products' with your actual table name
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching products:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json({ products: results });
+    }
+  });
+});
 app.get('/api/varient/count', (req, res) => {
   const query = 'SELECT COUNT(*) as count FROM varients'; // Replace 'products' with your actual table name
 

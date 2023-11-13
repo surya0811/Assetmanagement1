@@ -30,9 +30,14 @@ body{
   justify-content: space-between;
   padding:0 30px 0 30px;
   box-shadow: 0 6px 7px -3px rgba(0,0,0,0.35);
+  
+  
 }
 .header-right {
   display: flex;
+}
+.header-center {
+  position: relative;    
 }
 
 .menu-icon{
@@ -63,9 +68,34 @@ body{
   display:none;
 }
 .sidebar-brand{
-  margin-top: 15px;
+  margin-top: 0.4rem;
   font-size: 20px;
   font-weight: 700;
+  display: block;
+  width: 100%;
+  padding: 16px; /* Increase padding for a larger button */
+  text-align:center;
+  border: none;
+  text-decoration: solid;
+  padding-left:0px;
+}
+.sidebar-brand h2 {
+  font-size:xx-large;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: solid;
+  
+  color: rgb(9, 55, 12);
+  
+  
+}
+.dropdown-menu {
+  margin-left: 2rem;
+  padding-top: 10px;
+  cursor: pointer;
+  padding: 3px;
+  
+  
 }
 .sidebar-list{
   display:grid;
@@ -76,20 +106,27 @@ body{
   display:inline-flex;
   padding: 20px 20px 20px 20px;
   font-size: 20px;
+  font-weight: bolder;
+  text-transform: uppercase;
 }
+
 .icon {
   display: inline;
-  
+  text-transform: uppercase;
 }
-.icon_header {
+.dropdown.open button::after {
+  transform: rotateX(180deg);
+}
+/* .icon_header {
   display: inline;
-}
+} */
 .sidebar-list-items:hover{
   background-color: rgba(11, 10, 10, 0.2);
   cursor: pointer;
 }
 .sidebar-list-items>a{
-  text-decoration: none;
+  text-decoration:solid;
+  text-transform: uppercase;
   color:#02020a;
   padding-top: 2px;
   

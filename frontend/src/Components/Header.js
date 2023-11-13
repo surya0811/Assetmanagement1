@@ -1,5 +1,6 @@
 import React from 'react';
 import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs'; // Correct the import path
+import './App1.css';
 
 function Header({OpenSidebar}){
   return (

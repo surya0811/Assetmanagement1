@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BsCart3, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillMenuButtonWideFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+
 
 function Sidebar({ openSidebarToggle }) {
   const [isReportsOpen, setReportsOpen] = useState(false);
@@ -13,42 +13,43 @@ function Sidebar({ openSidebarToggle }) {
     <aside id='sidebar' className={openSidebarToggle ? 'sidebar-responsive' : ''}>
       <div className='sidebar-title'>
         <div className='sidebar-brand'>
-          <Link to="/purchase">
-            <BsCart3 className='icon_header' /> Purchase
-          </Link>
+          <h2>ASSET@INFO</h2>
         </div>
-        <span className='icon close_icon'>X</span>
       </div>
-
       <ul className='sidebar-list'>
         <li className='sidebar-list-items'>
-          <Link to="/producttable">
+          <button onClick={() => { window.location.href = "/purchase" }}>
+            <BsCart3 className='icon'/> Purchase
+          </button>
+        </li>
+        <li className='sidebar-list-items'>
+          <button onClick={() => { window.location.href = "/producttable" }}>
             <BsFillArchiveFill className='icon' /> product
-          </Link>
+          </button>
         </li>
         <li className='sidebar-list-items'>
-          <Link to="/addvarientvalue">
+          <button onClick={() => { window.location.href = "/addvarientvalue" }}>
             <BsFillGrid3X3GapFill className='icon' /> AddVarientsValue
-          </Link>
+          </button>
         </li>
         <li className='sidebar-list-items'>
-          <Link to="#">
+          <button onClick={() => { window.location.href = "#" }}>
             <BsPeopleFill className='icon' /> Customers
-          </Link>
+          </button>
         </li>
         <li className='sidebar-list-items'>
           {/* Dropdown for Reports */}
-          <div className='dropdown'>
-            <span onClick={toggleReportsDropdown}>
+          <div className={`dropdown ${isReportsOpen ? 'open' : ''}`}>
+            <button onClick={toggleReportsDropdown}>
               <BsFillMenuButtonWideFill className='icon' /> Reports
-            </span>
+            </button>
             {isReportsOpen && (
-              <ul className='dropdown-menu'>
+              <ul className='dropdown-menu animated-dropdown'>
                 <li>
-                  <Link to='/productreport'>Products report</Link>
+                  <button onClick={() => { window.location.href = "/productreport" }}>Products Report</button>
                 </li>
                 <li>
-                  <Link to='/report2'>Report 2</Link>
+                  <button onClick={() => { window.location.href = "/report" }}>Variants Report</button>
                 </li>
                 {/* Add more reports as needed */}
               </ul>

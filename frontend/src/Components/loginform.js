@@ -1,52 +1,65 @@
-import React, { useState } from 'react';
-import { HiOutlineUser,HiOutlineUserGroup} from 'react-icons/hi'; // Import icons accordingly
-import { RiLockPasswordFill} from 'react-icons/ri';
-import sucessimage from '../images/sucess1.jpg'; // Update the image path
+import React, { useState, useEffect} from 'react';
+import { HiOutlineUser, HiOutlineUserGroup } from 'react-icons/hi';
+import { RiLockPasswordFill } from 'react-icons/ri';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import sucessimage from '../images/sucess1.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSync } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const LoginForm = () => {
-  const [usertype, setusertype]= useState('');
+  const [usertype, setusertype] = useState('');
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [captchaText, setCaptchaText] = useState('');
+  const [userEnteredCaptcha, setUserEnteredCaptcha] = useState('');
 
   const handleLogin = async () => {
     try {
+    
       const response = await axios.post('http://localhost:3000/loginform', {
         usertype,
         username,
         password,
+        userEnteredCaptcha,
       });
-      
+
       const data = response.data;
-    
+
       setMessage(data.message);
       if (data.message === 'Login successful') {
-       
-        alert("Login successful"); 
+        alert('Login successful');
         navigate('/dashboard');
-    }
+      }
     } catch (error) {
       console.error('Error logging in:', error);
       setMessage('An error occurred while logging in.');
-      
     }
   };
+
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
-
   const handleSignup = () => {
-    
     navigate('/registration');
   };
-  // const handleUserTypeChange = (event) => {
-  //   setusertype(event.target.value);
-  // };
 
-  
+  const fetchCaptchaText = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/captcha');
+      const captcha = response.data.captcha;
+      setCaptchaText(captcha);
+    } catch (error) {
+      console.error('Error fetching CAPTCHA text:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCaptchaText();
+  }, []); 
 
 
   return (
@@ -61,25 +74,25 @@ const LoginForm = () => {
         <div className='grid justify-items-center '>
           <HiOutlineUserGroup className='w-40 h-20' />
         </div>
-        <p style={{textAlign:'center'}}>{message}</p>
+        <p style={{ textAlign: 'center' }}>{message}</p>
 
         <div className='flex items-center rounded-full bg-zinc-400'>
           <HiOutlineUser className='w-10 h-6 border-r-2 border-blue' />
           <select
-            id="user-type"
+            id='user-type'
             value={usertype}
             onChange={(e) => setusertype(e.target.value)}
-            className="outline-none bg-zinc-400 p-1 w-100"
+            className='outline-none bg-zinc-400 p-1 w-100'
           >
-            <option>Select user type</option> 
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
+            <option>Select user type</option>
+            <option value='user'>User</option>
+            <option value='admin'>Admin</option>
           </select>
         </div>
 
         <div className='flex items-center rounded-full bg-zinc-400'>
           <HiOutlineUser className='w-10 h-6 border-r-2 border-blue' />
-          
+
           <input
             type='text'
             placeholder='username'
@@ -88,7 +101,7 @@ const LoginForm = () => {
             className='outline-none bg-zinc-400 p-1 w-70'
           />
         </div>
-        
+
         <div className='flex items-center rounded-full bg-zinc-400'>
           <RiLockPasswordFill className='w-10 h-6 border-r-2 border-blue' />
           <input
@@ -96,13 +109,34 @@ const LoginForm = () => {
             placeholder='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className='outline-none bg-zinc-400 p-1 w-80'
+            className='outline-none bg-zinc-400 p-1 w-70'
           />
         </div>
+
+         <div className='flex items-center justify-center'>
+          <p>{captchaText}</p>
+          <button
+            onClick={fetchCaptchaText}
+            className='ml-2 bg-gray-300 px-2 py-1 rounded-md'
+          >
+            <FontAwesomeIcon icon={faSync} className='mr-1' />
+            
+          </button>
+        </div>
+        <div className='flex items-center rounded-full bg-zinc-400'>
+          <HiOutlineUser className='w-10 h-6 border-r-2 border-blue' />
+        <input
+                type='text'
+                placeholder='Enter CAPTCHA'
+                value={userEnteredCaptcha}
+                onChange={(e) => setUserEnteredCaptcha(e.target.value)}
+                className='outline-none bg-zinc-400 p-1 w-80  align-center'
+            />
+          </div>
         <button
           style={{ backgroundImage: 'linear-gradient(to right,green,red)' }}
           className='text-white text-lg rounded-full'
-          onClick={handleLogin} // Trigger the login function
+          onClick={handleLogin}
         >
           LOGIN
         </button>
@@ -110,17 +144,12 @@ const LoginForm = () => {
         <button
           style={{ backgroundImage: 'linear-gradient(to right,green,red)' }}
           className='text-white text-lg rounded-full'
-          onClick={handleSignup} // Trigger the login function
-        >Sign up 
+          onClick={handleSignup}
+        >
+          Sign up
         </button>
-
-       
-        
-      
       </div>
     </div>
-
-    
   );
 };
 

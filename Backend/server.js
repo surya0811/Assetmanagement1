@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const svgCaptcha = require('svg-captcha');
+const session = require('express-session');
 
 const app = express();
 const port = 3000; // You can change this to your desired port
@@ -17,7 +19,13 @@ app.use(cors(
 ));
 app.use(bodyParser.json());
 app.use(cookieParser());
-
+app.use(
+  session({
+    secret: 'surya@123', // Replace with a secret key
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 const connection =   mysql.createConnection({
     host: 'localhost',
@@ -95,49 +103,71 @@ app.get('/api/user/count', (req, res) => {
     }
   });
 });
+const generateRandomAlphabets = () => {
+  const alphabets = 'ABCDEFG234HIJKLMNOPQRSTU#$%^&*_VWXYZ0156789!@';
+  const captchaLength = 5; // You can adjust the length as needed
+  let captcha = '';
+  for (let i = 0; i < captchaLength; i++) {
+    const randomIndex = Math.floor(Math.random() * alphabets.length);
+    captcha += alphabets[randomIndex];
+  }
+  return captcha;
+};
+
+app.get('/captcha', (req, res) => {
+  const captchaText = generateRandomAlphabets();
+  req.session.captcha = captchaText;
+  res.json({ captcha: captchaText });
+});
 
 app.post('/loginform', (req, res) => {
-  const { username, password, usertype } = req.body;
+  const { username, password, usertype, userEnteredCaptcha } = req.body;
+
+  // Verify the user-entered CAPTCHA text
+  if (userEnteredCaptcha !== req.session.captcha) {
+    res.status(400).json({ message: 'CAPTCHA verification failed' });
+    return;
+  }
 
   let query = '';
   if (usertype === 'user') {
-      query = `SELECT * FROM userlogin WHERE username = ? AND password = ?`;
+    query = `SELECT * FROM userlogin WHERE username = ? AND password = ?`;
   } else if (usertype === 'admin') {
-      query = `SELECT * FROM adminlogin WHERE username = ? AND password = ?`;
+    query = `SELECT * FROM adminlogin WHERE username = ? AND password = ?`;
   } else {
-      res.status(400).json({ message: 'Invalid user type' });
-      return;
+    res.status(400).json({ message: 'Invalid user type' });
+    return;
   }
 
   connection.query(query, [username, password], (error, results) => {
-      if (error) {
-          console.error('Error querying the database:', error);
-          res.status(500).json({ error: 'Internal server error' });
-      } else if (results.length > 0) {
-          // Here, you can generate a JWT token upon successful login and send it in the response
-          const id = results[0].id;
-          const token = jwt.sign({ id }, "jwt-secret-key", { expiresIn: '1d' });
-          res.cookie('token', token);
-          res.json({ message: 'Login successful' });
-      } else {
-          res.status(401).json({ message: 'Invalid credentials' });
-      }
+    if (error) {
+      console.error('Error querying the database:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else if (results.length > 0) {
+      // Here, you can generate a JWT token upon successful login and send it in the response
+      const id = results[0].id;
+      const token = jwt.sign({ id }, 'jwt-secret-key', { expiresIn: '1d' });
+      res.cookie('token', token);
+      res.json({ message: 'Login successful' });
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
   });
 });
+
 const verifyUser = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-      return res.status(401).json({ Error: "You are not Authenticated" });
+    return res.status(401).json({ Error: 'You are not Authenticated' });
   } else {
-      jwt.verify(token, "jwt-secret-key", (err, decoded) => {
-          if (err) {
-              return res.status(401).json({ Error: "Token is invalid" });
-          }
-          next();
-      });
+    jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ Error: 'Token is invalid' });
+      }
+      next();
+    });
   }
-};
-app.get('/dashboard', verifyUser, (req, res) => {
+};app.get('/dashboard', verifyUser, (req, res) => {
   return res.json({ Status: "Success" })
 })
 

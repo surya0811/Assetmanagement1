@@ -3,10 +3,10 @@ import { HiOutlineUser, HiOutlineUserGroup } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import sucessimage from '../images/sucess1.jpg';
+import sucessimage from '../images/loginback.mp4';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
-
+import './LoginForm.css';
 
 
 const LoginForm = () => {
@@ -63,15 +63,14 @@ const LoginForm = () => {
 
 
   return (
-    <div
-      className='flex h-screen justify-center items-center'
-      style={{
-        backgroundImage: `url(${sucessimage})`,
-        backgroundSize: 'cover',
-      }}
-    >
-      <div className='flex flex-col gap-4 border-2 border-slate-300  rounded-md p-6 bg-white'>
-        <div className='grid justify-items-center '>
+    <div className='relative'>
+    <video autoPlay loop muted className='fixed object-cover w-full h-full z-[-1]'>
+      <source src={sucessimage} type='video/mp4' />
+    </video>
+
+    <div className='flex h-screen justify-center items-center relative z-10'>
+      <div className='flex flex-col gap-4 border-2 border-slate-300 rounded-md p-6 bg-blue'>  
+        <div className='grid justify-items-center  '>
           <HiOutlineUserGroup className='w-40 h-20' />
         </div>
         <p style={{ textAlign: 'center' }}>{message}</p>
@@ -95,10 +94,10 @@ const LoginForm = () => {
 
           <input
             type='text'
-            placeholder='username'
+            placeholder=' enter username'
             value={username}
             onChange={(e) => setusername(e.target.value)}
-            className='outline-none bg-zinc-400 p-1 w-70'
+            className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
           />
         </div>
 
@@ -106,20 +105,20 @@ const LoginForm = () => {
           <RiLockPasswordFill className='w-10 h-6 border-r-2 border-blue' />
           <input
             type='password'
-            placeholder='password'
+            placeholder=' enterpassword'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className='outline-none bg-zinc-400 p-1 w-70'
+            className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
           />
         </div>
 
-         <div className='flex items-center justify-center'>
+         <div className='flex items-center justify-center text-white text-xl'>
           <p>{captchaText}</p>
           <button
             onClick={fetchCaptchaText}
             className='ml-2 bg-gray-300 px-2 py-1 rounded-md'
           >
-            <FontAwesomeIcon icon={faSync} className='mr-1' />
+            <FontAwesomeIcon icon={faSync} className='mr-1 bg-black-200' />
             
           </button>
         </div>
@@ -130,7 +129,7 @@ const LoginForm = () => {
                 placeholder='Enter CAPTCHA'
                 value={userEnteredCaptcha}
                 onChange={(e) => setUserEnteredCaptcha(e.target.value)}
-                className='outline-none bg-zinc-400 p-1 w-80  align-center'
+                className='outline-none bg-zinc-400 p-1 w-80  align-center text-black-800 font-bold white-placeholder'
             />
           </div>
         <button
@@ -148,6 +147,7 @@ const LoginForm = () => {
         >
           Sign up
         </button>
+      </div>
       </div>
     </div>
   );

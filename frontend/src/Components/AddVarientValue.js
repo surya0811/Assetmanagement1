@@ -68,7 +68,7 @@ function AddVarientValue({ onSubmit }) {
 
   return (
     <div className="mt-4" style={{ backgroundImage: `url(${sucessimage})`, backgroundSize: 'cover', }}>
-      <h2 className="text-3xl font-bold mb-2 text-black-1000 text-center uppercase">Purchase Product</h2>
+      <h2 className="text-3xl font-bold mb-2 text-black-1000 text-center uppercase"> VARIANT VALUE</h2>
       <form onSubmit={handleSubmit}>
         <label className=" text-xl block mb-4 text-black-1000 font-bold border-blue-300 uppercase">Product Name:
           <input

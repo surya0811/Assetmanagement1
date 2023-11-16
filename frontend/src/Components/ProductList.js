@@ -228,17 +228,18 @@ useEffect(() => {
                   onClick={() => handleAddVariant(d)}
                 >
                    <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                      Add Product
+                      Add New variant
                 </button>
                
               </td>
-              <td className="border p-2">
-                <button className="bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded" 
-                    onClick={() => handleDeleteVariant(d.productid)}>
+              <td className="border p-2 flex justify-center items-center">
+                <button className="bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center align-center" 
+                onClick={() => handleDeleteVariant(d.productid)}>
                   <FaTrash className="mr-2" />
                   Delete Variants
                 </button>
-              </td>
+              </td>
+
             </tr>
           ))}
         </tbody>

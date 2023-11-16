@@ -15,6 +15,7 @@ import UserPage from "./Components/UserPage";
 import CustomAlert from "./Components/CustomAlert";
 import Report from "./Components/Report";
 import ProductReport from "./Components/ProductReport";
+import VariantReport from "./Components/VariantReport";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
       <Route path ="/alert" element={<CustomAlert/>}/>
       <Route path ="/report" element = {<Report/>}/>
       <Route path ="/productreport" element = {<ProductReport/>}/>
+      <Route path ="/VariantReport" element = {<VariantReport/>}/>
+      
     </Routes>
   );
 }

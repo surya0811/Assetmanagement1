@@ -48,8 +48,9 @@ function Sidebar({ openSidebarToggle }) {
                 <li>
                   <button onClick={() => { window.location.href = "/productreport" }}>Products Report</button>
                 </li>
+                
                 <li>
-                  <button onClick={() => { window.location.href = "/report" }}>Variants Report</button>
+                  <button onClick={() => { window.location.href = "/report" }}>  Complete Report</button>
                 </li>
                 {/* Add more reports as needed */}
               </ul>

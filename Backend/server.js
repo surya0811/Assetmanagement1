@@ -66,6 +66,7 @@ app.get('/api/products', (req, res) => {
     }
   });
 });
+
 app.get('/api/varient/count', (req, res) => {
   const query = 'SELECT COUNT(*) as count FROM varients'; // Replace 'products' with your actual table name
 
@@ -104,7 +105,7 @@ app.get('/api/user/count', (req, res) => {
   });
 });
 const generateRandomAlphabets = () => {
-  const alphabets = 'ABCDEFG234HIJKLMNOPQRSTU#$%^&*_VWXYZ0156789!@';
+  const alphabets = 'ABCDEFG234abcdefghHIJKLMNOPQRSijklmnopTU#$%^&*_VWXYZ01qrstuvwxyz56789!@';
   const captchaLength = 5; // You can adjust the length as needed
   let captcha = '';
   for (let i = 0; i < captchaLength; i++) {
@@ -122,52 +123,55 @@ app.get('/captcha', (req, res) => {
 
 app.post('/loginform', (req, res) => {
   const { username, password, usertype, userEnteredCaptcha } = req.body;
+  
+
 
   // Verify the user-entered CAPTCHA text
   if (userEnteredCaptcha !== req.session.captcha) {
-    res.status(400).json({ message: 'CAPTCHA verification failed' });
-    return;
+    return res.status(400).json({ message: 'CAPTCHA verification failed' });
   }
 
   let query = '';
   if (usertype === 'user') {
     query = `SELECT * FROM userlogin WHERE username = ? AND password = ?`;
+    
   } else if (usertype === 'admin') {
     query = `SELECT * FROM adminlogin WHERE username = ? AND password = ?`;
   } else {
-    res.status(400).json({ message: 'Invalid user type' });
-    return;
+    return res.status(400).json({ message: 'Invalid user type' });
   }
 
   connection.query(query, [username, password], (error, results) => {
     if (error) {
       console.error('Error querying the database:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    } else if (results.length > 0) {
-      // Here, you can generate a JWT token upon successful login and send it in the response
-      const id = results[0].id;
-      const token = jwt.sign({ id }, 'jwt-secret-key', { expiresIn: '1d' });
-      res.cookie('token', token);
-      res.json({ message: 'Login successful' });
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (results.length > 0) {
+      const user = results[0];
+      res.json({ message: 'Login successful', userType: usertype, userId: user.id
+       /* Include any other user-related data you need */ });
     } else {
+      console.error('Invalid credentials:', { username, usertype });
       res.status(401).json({ message: 'Invalid credentials' });
     }
   });
 });
 
-const verifyUser = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ Error: 'You are not Authenticated' });
-  } else {
-    jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ Error: 'Token is invalid' });
-      }
-      next();
-    });
-  }
-};app.get('/dashboard', verifyUser, (req, res) => {
+// const verifyUser = (req, res, next) => {
+  // const token = req.cookies.token;
+  // if (!token) {
+  //   return res.status(401).json({ Error: 'You are not Authenticated' });
+  // } else {
+  //   jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
+  //     if (err) {
+  //       return res.status(401).json({ Error: 'Token is invalid' });
+  //     }
+  //     next();
+  //   });
+  // }
+// };
+app.get('/dashboard',  (req, res) => {
   return res.json({ Status: "Success" })
 })
 

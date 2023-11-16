@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import sucessimage from '../images/loginback.mp4';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import './LoginForm.css';
 
 
@@ -73,7 +73,7 @@ const LoginForm = () => {
         <div className='grid justify-items-center  '>
           <HiOutlineUserGroup className='w-40 h-20' />
         </div>
-        <p style={{ textAlign: 'center' }}>{message}</p>
+        <p style={{ textAlign: 'center', color:'red' , font:'14px' , fontFamily:'bold'}}>{message}</p>
 
         <div className='flex items-center rounded-full bg-zinc-400'>
           <HiOutlineUser className='w-10 h-6 border-r-2 border-blue' />
@@ -105,20 +105,20 @@ const LoginForm = () => {
           <RiLockPasswordFill className='w-10 h-6 border-r-2 border-blue' />
           <input
             type='password'
-            placeholder=' enterpassword'
+            placeholder=' enter password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
           />
         </div>
 
-         <div className='flex items-center justify-center text-white text-xl'>
+         <div className='flex items-center justify-center text-white text-xl font-line-through'>
           <p>{captchaText}</p>
           <button
             onClick={fetchCaptchaText}
-            className='ml-2 bg-gray-300 px-2 py-1 rounded-md'
+            className='ml-2 bg-black-300 px-2 py-1 rounded-md'
           >
-            <FontAwesomeIcon icon={faSync} className='mr-1 bg-black-200' />
+            <FontAwesomeIcon icon={faArrowsRotate} fade size="3xs"  className='mr-1 bg-black-200' />
             
           </button>
         </div>
@@ -129,7 +129,7 @@ const LoginForm = () => {
                 placeholder='Enter CAPTCHA'
                 value={userEnteredCaptcha}
                 onChange={(e) => setUserEnteredCaptcha(e.target.value)}
-                className='outline-none bg-zinc-400 p-1 w-80  align-center text-black-800 font-bold white-placeholder'
+                className='outline-none bg-zinc-400 p-1 w-80  align-center text-black-800 font-bold  white-placeholder'
             />
           </div>
         <button

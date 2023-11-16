@@ -3,7 +3,7 @@ import {BsFillBellFill} from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import ProductCard from './productCard';
 import VarientCard from './VarientCard';
-import sucessimage from '../images/dashboard.jpg';
+import sucessimage from '../images/Data_Grid.mp4';
 import UserCard from './usercard';
 
 
@@ -55,7 +55,10 @@ const Home = () => {
       ];
   return (
    
-      <main className='main-container'style={{  backgroundImage: `url(${sucessimage})` }}>
+      <main className='main-container'>
+        <video autoPlay loop muted className='fixed object-cover w-full h-full z-[-1]'>
+      <source src={sucessimage} type='video/mp4' />
+       </video>
        
         <div className='main-cards'>
          

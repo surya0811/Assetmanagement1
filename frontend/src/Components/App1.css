@@ -137,7 +137,7 @@ body{
 .sidebar-list-items{
   display:inline-flex;
   padding: 20px 20px 20px 20px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bolder;
   text-transform: uppercase;
   color:#d50000;
@@ -156,12 +156,14 @@ body{
 .sidebar-list-items:hover{
   background-color: rgba(11, 10, 10, 0.2);
   cursor: pointer;
+
 }
 .sidebar-list-items>a{
   text-decoration:solid;
   text-transform: uppercase;
   color:#02020a;
   padding-top: 2px;
+  
   
 }
 .sidebar-responsive{

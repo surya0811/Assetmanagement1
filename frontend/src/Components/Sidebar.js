@@ -19,29 +19,29 @@ function Sidebar({ openSidebarToggle }) {
       <ul className='sidebar-list'>
         <li className='sidebar-list-items'>
           <button onClick={() => { window.location.href = "/purchase" }}>
-            <BsCart3 className='icon'/> Purchase
+            <BsCart3 className='icon'/> PURCHASE
           </button>
         </li>
         <li className='sidebar-list-items'>
           <button onClick={() => { window.location.href = "/producttable" }}>
-            <BsFillArchiveFill className='icon' /> product
+            <BsFillArchiveFill className='icon' /> PRODUCT@INFO
           </button>
         </li>
         <li className='sidebar-list-items'>
           <button onClick={() => { window.location.href = "/addvarientvalue" }}>
-            <BsFillGrid3X3GapFill className='icon' /> AddVarientsValue
+            <BsFillGrid3X3GapFill className='icon' /> ADDVARIANTVALUE
           </button>
         </li>
         <li className='sidebar-list-items'>
           <button onClick={() => { window.location.href = "#" }}>
-            <BsPeopleFill className='icon' /> Customers
+            <BsPeopleFill className='icon' /> CUSTOMERS
           </button>
         </li>
         <li className='sidebar-list-items'>
           {/* Dropdown for Reports */}
           <div className={`dropdown ${isReportsOpen ? 'open' : ''}`}>
             <button onClick={toggleReportsDropdown}>
-              <BsFillMenuButtonWideFill className='icon' /> Reports
+              <BsFillMenuButtonWideFill className='icon' /> REPORTS
             </button>
             {isReportsOpen && (
               <ul className='dropdown-menu animated-dropdown'>
@@ -55,7 +55,12 @@ function Sidebar({ openSidebarToggle }) {
                 {/* Add more reports as needed */}
               </ul>
             )}
-          </div>
+            </div>
+          </li>
+        <li className='sidebar-list-items'>
+          <button onClick={() => { window.location.href = "/" }}>
+            <BsPeopleFill className='icon' /> LOG OUT
+          </button>
         </li>
       </ul>
     </aside>

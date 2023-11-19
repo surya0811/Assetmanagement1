@@ -200,7 +200,7 @@ useEffect(() => {
         >
           <FaShoppingCart className="mr-2" /> Purchase
         </button>
-        <h2 className="text-2xl font-bold text-center">Product List</h2>
+        <h2 className="text-5xl font-bold text-center uppercase marquee1 text-purple-800">Asset management system</h2>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleToggleForm}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { HiOutlineUser, HiOutlineUserGroup } from 'react-icons/hi';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import sucessimage from '../images/loginback.mp4';
@@ -16,6 +17,7 @@ const LoginForm = () => {
   const [message, setMessage] = useState('');
   const [captchaText, setCaptchaText] = useState('');
   const [userEnteredCaptcha, setUserEnteredCaptcha] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleLogin = async () => {
     try {
@@ -102,15 +104,25 @@ const LoginForm = () => {
         </div>
 
         <div className='flex items-center rounded-full bg-zinc-400'>
-          <RiLockPasswordFill className='w-10 h-6 border-r-2 border-blue' />
-          <input
-            type='password'
-            placeholder=' enter password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
-          />
-        </div>
+            <RiLockPasswordFill className='w-10 h-6 border-r-2 border-blue' />
+            <input
+              type={showPassword ? 'text' : 'password'} // Toggle between text and password
+              placeholder=' enter password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
+            />
+            <div
+              className='cursor-pointer'
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <AiOutlineEyeInvisible className='w-6 h-6' />
+              ) : (
+                <AiOutlineEye className='w-6 h-6' />
+              )}
+            </div>
+          </div>
 
          <div className='flex items-center justify-center text-white text-xl font-line-through'>
           <p>{captchaText}</p>

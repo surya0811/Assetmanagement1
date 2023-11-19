@@ -24,6 +24,10 @@ app.use(
     secret: 'surya@123', // Replace with a secret key
     resave: true,
     saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      
+    },
   })
 );
 
@@ -121,10 +125,33 @@ app.get('/captcha', (req, res) => {
   res.json({ captcha: captchaText });
 });
 
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.redirect('/');
+  }
+
+  jwt.verify(token, 'surya', (err, decoded) => {
+    if (err) {
+      console.error('JWT verification error:', err);
+      return res.redirect('/');
+    }
+
+    req.decoded = decoded;
+    next();
+  });
+};
+
+// Example protected route
+app.get('/dashboard', verifyUser, (req, res) => {
+  // If the middleware passes, the user is authenticated
+  res.json({ message: 'Access granted', user: req.decoded });
+});
+
+
 app.post('/loginform', (req, res) => {
   const { username, password, usertype, userEnteredCaptcha } = req.body;
-  
-
 
   // Verify the user-entered CAPTCHA text
   if (userEnteredCaptcha !== req.session.captcha) {
@@ -134,7 +161,6 @@ app.post('/loginform', (req, res) => {
   let query = '';
   if (usertype === 'user') {
     query = `SELECT * FROM userlogin WHERE username = ? AND password = ?`;
-    
   } else if (usertype === 'admin') {
     query = `SELECT * FROM adminlogin WHERE username = ? AND password = ?`;
   } else {
@@ -149,8 +175,15 @@ app.post('/loginform', (req, res) => {
 
     if (results.length > 0) {
       const user = results[0];
-      res.json({ message: 'Login successful', userType: usertype, userId: user.id
-       /* Include any other user-related data you need */ });
+// Generate JWT token
+      const token = jwt.sign({ userId: user.id, userType: usertype }, 'surya', { expiresIn: '1h' });
+      res.json({
+        message: 'Login successful',
+        userType: usertype,
+        userId: user.id,
+        token,
+        // Include any other user-related data you need
+      });
     } else {
       console.error('Invalid credentials:', { username, usertype });
       res.status(401).json({ message: 'Invalid credentials' });
@@ -158,21 +191,10 @@ app.post('/loginform', (req, res) => {
   });
 });
 
-// const verifyUser = (req, res, next) => {
-  // const token = req.cookies.token;
-  // if (!token) {
-  //   return res.status(401).json({ Error: 'You are not Authenticated' });
-  // } else {
-  //   jwt.verify(token, 'jwt-secret-key', (err, decoded) => {
-  //     if (err) {
-  //       return res.status(401).json({ Error: 'Token is invalid' });
-  //     }
-  //     next();
-  //   });
-  // }
-// };
-app.get('/dashboard',  (req, res) => {
-  return res.json({ Status: "Success" })
+
+app.get('/logout', (req, res) => {
+  res.clearCookie('token');
+  return res.json({Status: "Success"})
 })
 
 app.post('/register', (req, res) => {

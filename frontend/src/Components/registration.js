@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import backgroundImage from '../images/register.jpg'
+import { useNavigate } from 'react-router-dom';
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -12,6 +13,8 @@ const RegistrationForm = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +29,9 @@ const RegistrationForm = () => {
 
     if (response.ok) {
       alert('User registered sucessfully')
+      
+        navigate("/")
+  
       
     } else {
       // Registration failed, handle accordingly

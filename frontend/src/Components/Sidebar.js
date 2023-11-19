@@ -1,13 +1,24 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { BsCart3, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillMenuButtonWideFill } from 'react-icons/bs';
+import {  useNavigate } from 'react-router-dom';
 
 
 function Sidebar({ openSidebarToggle }) {
   const [isReportsOpen, setReportsOpen] = useState(false);
+  const navigate = useNavigate()
+  axios.defaults.withCredentials = true
 
   const toggleReportsDropdown = () => {
     setReportsOpen(!isReportsOpen);
   };
+
+  const handleLogout = () => {
+    axios.get('http://localhost:3000/logout')
+        .then(res => {
+            navigate('/')
+        }).catch(err => console.log(err))
+    }
 
   return (
     <aside id='sidebar' className={openSidebarToggle ? 'sidebar-responsive' : ''}>
@@ -57,8 +68,9 @@ function Sidebar({ openSidebarToggle }) {
             )}
             </div>
           </li>
-        <li className='sidebar-list-items'>
-          <button onClick={() => { window.location.href = "/" }}>
+        
+        <li className='sidebar-list-items' onClick={handleLogout}>
+        <button >
             <BsPeopleFill className='icon' /> LOG OUT
           </button>
         </li>

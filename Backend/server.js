@@ -221,7 +221,7 @@ app.post('/check-user', (req, res) => {
 
   // Find the user with the provided email or phone
   const query = 'SELECT * FROM userlogin WHERE email = ? OR phonenumber = ?';
-  connection.query(query, [emailOrPhone, emailOrPhone], (err, results) => {
+  connection.query(query,[decodeURIComponent(emailOrPhone), decodeURIComponent(emailOrPhone)], (err, results) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).json({ success: false, message: 'Internal server error' });
@@ -241,7 +241,7 @@ app.post('/reset-password', (req, res) => {
 
   // Find the user with the provided email or phone
   const query = 'SELECT * FROM userlogin WHERE email = ? OR phonenumber = ?';
-  connection.query(query, [emailOrPhone, emailOrPhone], (err, results) => {
+  connection.query(query, [decodeURIComponent(emailOrPhone), decodeURIComponent(emailOrPhone)], (err, results) => {
     if (err) {
       console.error('Error executing MySQL query:', err);
       return res.status(500).json({ success: false, message: 'Internal server error' });

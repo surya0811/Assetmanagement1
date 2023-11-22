@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import sucessimage from '../images/forgot.jpg';
+import { decode } from 'base-64';
 
 const ResetPasswordForm = () => {
   const { emailOrPhone } = useParams();
@@ -9,10 +11,13 @@ const ResetPasswordForm = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const navigate = useNavigate();
+  const decodedEmail = decode(emailOrPhone);
+
   const handleResetPassword = async () => {
     try {
       const response = await axios.post('http://localhost:3000/reset-password', {
-        emailOrPhone,
+        emailOrPhone: encodeURIComponent(decodedEmail), // Encode the email before sending
         newPassword,
         confirmPassword,
       });
@@ -23,6 +28,7 @@ const ResetPasswordForm = () => {
         // Password reset successful
         setSuccessMessage('Password reset successful! You can now log in with your new password.');
         setErrorMessage('');
+        navigate('/');
       } else {
         // Handle errors
         setErrorMessage(`Password reset failed: ${data.message}`);
@@ -36,9 +42,13 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-200">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-200"
+      style={{
+        backgroundImage: `url(${sucessimage})`,
+        backgroundSize: 'cover',
+      }}
+    >
       <div className="bg-white p-8 rounded shadow-md w-full sm:w-96">
-        {/* Your form UI with input fields for new password and confirm password */}
         <label className="block text-gray-700 text-sm font-bold mb-2">New Password:</label>
         <input
           type="password"

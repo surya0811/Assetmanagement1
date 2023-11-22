@@ -9,6 +9,7 @@ import "./Style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import CustomAlert from "./CustomAlert";
+import { useNavigate } from 'react-router-dom';
 
 function ProductTable() {
   const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ function ProductTable() {
 
 
   
-  
+  const navigate=useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:3000/assesst')
@@ -131,6 +132,7 @@ function ProductTable() {
           setSelectedVariants([]);
           setDeleteConfirmation(false);
           alert("Varients deleted sucessfully")
+          navigate('/dashboard'); 
         } else {
           // Handle any errors, e.g., display an error message
           console.error('Error deleting variants');
@@ -246,7 +248,7 @@ useEffect(() => {
       </table>
       <br />
       
-        <span className="text-800 text-red-500 text-center uppercase font-bold marquee">
+        <span className="text-900 text-red-800 text-center uppercase font-bolder text-xl marquee">
   Click "Add Variants" for the suitable product you want.
 </span>
        

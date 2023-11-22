@@ -8,7 +8,7 @@ function Sidebar({ openSidebarToggle }) {
   const [isReportsOpen, setReportsOpen] = useState(false);
   const navigate = useNavigate()
   axios.defaults.withCredentials = true
-
+  
   const toggleReportsDropdown = () => {
     setReportsOpen(!isReportsOpen);
   };
@@ -16,12 +16,19 @@ function Sidebar({ openSidebarToggle }) {
   const handleLogout = () => {
     axios.get('http://localhost:3000/logout')
         .then(res => {
+          
             navigate('/')
         }).catch(err => console.log(err))
     }
 
   return (
     <aside id='sidebar' className={openSidebarToggle ? 'sidebar-responsive' : ''}>
+       {openSidebarToggle && typeof openSidebarToggle === 'function' && (
+    <div className='close-button' onClick={() => openSidebarToggle(false)}>
+      X
+    </div>
+  )}
+      
       <div className='sidebar-title'>
         <div className='sidebar-brand'>
           <h2>ASSET@INFO</h2>

@@ -22,7 +22,7 @@ function AddProductForm() {
           // Product added successfully
           window.alert('product added successfully');
           setProductName(''); // Clear the input field
-          navigate('/producttable'); 
+          navigate('/dashboard'); 
         } else {
           console.error('Failed to add product.');
         }
@@ -34,7 +34,7 @@ function AddProductForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-screen-md mx-auto p-4 bg-white rounded-lg shadow-md text-black border border-purple-900 ">
+      <div className="w-1/3 max-w-screen-md mx-auto p-4 bg-white rounded-lg shadow-md text-black border border-purple-900 ">
         <h2 className="text-3xl font-semibold mb-5 text-center uppercase">Add New Product</h2>
         <form onSubmit={handleProductSubmit}>
           <label className=" text-xl block mb-3 ">

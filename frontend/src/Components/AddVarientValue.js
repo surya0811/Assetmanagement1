@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import sucessimage from '../images/sucess3.jpg';
+import { useNavigate} from 'react-router-dom';
+
 function AddVarientValue({ onSubmit }) {
   const [productName, setProductName] = useState('');
   const [variants, setVariants] = useState([]);
   const [values, setValues] = useState({});
   const [noProductFound, setNoProductFound] = useState(false);
 
+  const navigate=useNavigate();
   useEffect(() => {
     // Fetch variants from the backend when the productName changes
     if (productName) {
@@ -57,6 +60,7 @@ function AddVarientValue({ onSubmit }) {
         
         if (data.message === 'Purchase data saved successfully.') {
             alert("Varient values added sucessfully");
+            navigate('/dashboard');
         } else {
           console.log('Error:', data.error || 'Unknown error');
         }

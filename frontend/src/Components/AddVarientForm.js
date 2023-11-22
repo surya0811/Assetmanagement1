@@ -25,7 +25,7 @@ function AddVariantForm({ productId, onVariantAdded }) {
       if (response.ok) {
         onVariantAdded();
         window.alert("varients added sucessfully");
-        navigate('/producttable');
+        navigate('/dashboard');
       } else {
         console.error('Failed to add variants.');
       }

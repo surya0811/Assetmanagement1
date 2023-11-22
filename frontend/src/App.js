@@ -12,7 +12,8 @@ import UserPage from "./Components/UserPage";
 import CustomAlert from "./Components/CustomAlert";
 import Report from "./Components/Report";
 import ProductReport from "./Components/ProductReport";
-
+import ResetPassword from "./Components/ForgotPasswordForm";
+import ResetPasswordPage from './Components/ResetPasswordPage';
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
       <Route path="/alert" element={<CustomAlert />} />
       <Route path="/report" element={<Report />} />
       <Route path="/productreport" element={<ProductReport />} />
+      <Route path="/resetpassword" element={<ResetPassword/>}/>
+      <Route path="/reset-password/:emailOrPhone" element={<ResetPasswordPage />} />
       
     </Routes>
   );

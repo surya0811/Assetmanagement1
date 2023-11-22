@@ -216,6 +216,63 @@ app.post('/register', (req, res) => {
   });
 });
 
+app.post('/check-user', (req, res) => {
+  const { emailOrPhone } = req.body;
+
+  // Find the user with the provided email or phone
+  const query = 'SELECT * FROM userlogin WHERE email = ? OR phonenumber = ?';
+  connection.query(query, [emailOrPhone, emailOrPhone], (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // User found
+    res.status(200).json({ success: true, message: 'User found' });
+  });
+});
+
+app.post('/reset-password', (req, res) => {
+  const { emailOrPhone, newPassword, confirmPassword } = req.body;
+
+  // Find the user with the provided email or phone
+  const query = 'SELECT * FROM userlogin WHERE email = ? OR phonenumber = ?';
+  connection.query(query, [emailOrPhone, emailOrPhone], (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const user = results[0];
+
+    // Check if the new password and confirm password match
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ success: false, message: 'Passwords do not match' });
+    }
+
+    // Update the user's password
+    const updateQuery = 'UPDATE userlogin SET password = ? WHERE id = ?';
+    connection.query(updateQuery, [newPassword, user.id], (updateErr) => {
+      if (updateErr) {
+        console.error('Error updating password:', updateErr);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+      }
+
+      res.status(200).json({ success: true, message: 'Password reset successful' });
+    });
+  });
+});
+
+
+
 app.get('/assesst', (req, res) => {
     const sql = 'SELECT * FROM products';
     connection.query(sql, (err, data) => {

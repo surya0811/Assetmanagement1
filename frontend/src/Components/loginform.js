@@ -17,6 +17,7 @@ const LoginForm = () => {
   const [captchaText, setCaptchaText] = useState('');
   const [userEnteredCaptcha, setUserEnteredCaptcha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
@@ -47,6 +48,15 @@ const LoginForm = () => {
   const handleSignup = () => {
     navigate('/registration');
   };
+  const handleForgotPassword = () => {
+    navigate('/resetpassword')
+    setShowForgotPassword(true);
+  };
+
+  const handlePasswordReset = () => {
+    // Handle any actions after a successful password reset
+    setShowForgotPassword(false);
+  };  
 
   const fetchCaptchaText = async () => {
     try {
@@ -148,7 +158,12 @@ const LoginForm = () => {
           >
             LOGIN
           </button>
-
+          <button 
+          style={{ backgroundImage: 'linear-gradient(to right,green,red)' }}
+          className='text-white text-lg rounded-full'
+           onClick={handleForgotPassword}>
+              Forgot Password?
+          </button>
           <button
             style={{ backgroundImage: 'linear-gradient(to right,green,red)' }}
             className='text-white text-lg rounded-full'

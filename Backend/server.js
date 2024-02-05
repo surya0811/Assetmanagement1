@@ -6,10 +6,17 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const svgCaptcha = require('svg-captcha');
 const session = require('express-session');
-
+const multer = require('multer');
+const path = require('path');
 const app = express();
 const port = 3000; // You can change this to your desired port
-
+app.use((req, res, next) => {
+  res.setHeader(
+      'Content-Security-Policy',
+      "default-src 'self'; img-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self';"
+  );
+  next();
+});
 app.use(cors(
     {
         origin:["http://localhost:3001"],
@@ -30,7 +37,8 @@ app.use(
     },
   })
 );
-
+app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 const connection =   mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -39,6 +47,17 @@ const connection =   mysql.createConnection({
 });
 
 connection.connect();
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/uploads'); // Use path.join to create an absolute path
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+}
+});
+const upload = multer({ storage });
 
 app.get('/api/products/count', (req, res) => {
   const query = 'SELECT COUNT(*) as count FROM products'; // Replace 'products' with your actual table name
@@ -273,46 +292,60 @@ app.post('/reset-password', (req, res) => {
 
 
 
+// app.get('/assesst', (req, res) => {
+//     const sql = 'SELECT * FROM products1';
+//     connection.query(sql, (err, data) => {
+//       if (err) return res.json(err);
+//       return res.json(data);
+//     });
+//   });
 app.get('/assesst', (req, res) => {
-    const sql = 'SELECT * FROM products';
-    connection.query(sql, (err, data) => {
-      if (err) return res.json(err);
-      return res.json(data);
+  const sql = 'SELECT productid, productName, productImage FROM products1';
+  connection.query(sql, (err, data) => {
+      if (err) {
+          console.error('Error retrieving products:', err);
+          return res.status(500).json({ error: 'Internal Server Error' });
+      }
+      
+      // Modify the response data to include full image URLs
+      const modifiedData = data.map(product => ({
+          ...product,
+          productImage: `http://localhost:3000/public/uploads/${product.productImage}`
+      }));
+
+      return res.json(modifiedData);
+  });
+});
+
+  
+  app.post('/product', upload.single('productImage'), (req, res) => {
+    const { productid,productName, productDescription, variants, variantValues } = req.body;
+    const productImage = req.file ? req.file.path.replace(/\\/g, '/') : null;
+  
+    // Check if variants is present in the request body
+    if (!variants) {
+      return res.status(400).json({ success: false, error: 'Variants are required' });
+    }
+  
+    // Convert variantValues array to a string without quotes and backslashes
+ 
+  
+    // Insert product data into MySQL database
+    const sql = "INSERT INTO products1(`productid`,`productName`, `productImage`, `productDescription`, `variants`, `variantValues`) VALUES (?, ?,?,?,?,?);"
+    const values = [productid,productName, productImage, productDescription, variants, variantValues];
+   
+    connection.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error inserting data into MySQL:', err);
+        return res.status(500).json({ success: false, error: 'Internal Server Error' });
+      } else {
+        console.log('Product data inserted successfully:', result);
+        return res.status(200).json({ success: true, message: 'Product submitted successfully' });
+
+      }
     });
   });
   
-  app.post('/addproduct', (req, res) => {
-    const { id, productName } = req.body;
-  
-    // Check if a product with the same 'productid' already exists
-    const checkProductQuery = 'SELECT COUNT(*) as count FROM products WHERE productid = ?';
-  
-    connection.query(checkProductQuery, [id], (checkError, checkResults) => {
-      if (checkError) {
-        console.error('Error checking product existence:', checkError);
-        return res.status(500).json({ error: 'Failed to check product existence.' });
-      }
-  
-      const productExists = checkResults[0].count > 0;
-  
-      if (productExists) {
-        // Product with the same 'productid' already exists, handle accordingly
-        return res.status(400).json({ error: 'Product with the same ID already exists.' });
-      }
-  
-      // Product with 'productid' doesn't exist, proceed with insertion
-      const insertProductQuery = 'INSERT INTO products (productid, productName) VALUES (?, ?)';
-  
-      connection.query(insertProductQuery, [id, productName], (insertError, insertResults) => {
-        if (insertError) {
-          console.error('Error adding product:', insertError);
-          return res.status(500).json({ error: 'Failed to add product.' });
-        }
-  
-        res.json({ message: 'Product added successfully' });
-      });
-    });
-  });
   
 
   app.post('/adddescription', (req, res) => {

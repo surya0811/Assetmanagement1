@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginForm from "./Components/loginform";
 import RegistrationForm from "./Components/registration";
-import AddProductForm from "./Components/AddProductForm";
+import AddProductForm from "./Components/NewAddProduct";
 import ProductTable from "./Components/ProductList";
 import Dashboard from "./Components/Dashboard";
 import PurchaseForm from "./Components/PurchaseForm";
@@ -21,7 +21,7 @@ function App() {
       <Route path="/" element={<LoginForm />} />
       <Route path="/registration" element={<RegistrationForm />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/addproduct" element={<AddProductForm />} />
+      <Route path="/product" element={<AddProductForm />} />
       <Route path="/producttable" element={<ProductTable />} />
       <Route path="/purchase" element={<PurchaseForm />} />
       <Route path="/addvariants" element={<AddVariantForm />} />

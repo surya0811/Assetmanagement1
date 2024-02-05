@@ -26,7 +26,7 @@ function VarientCard() {
   return (
     <div className='card'>
     <div className='card-inner'>
-      <h3>VARIANTS</h3>
+      <h3><em>VARIANTS</em></h3>
       <BsGrid1X2Fill className='card_iicon' />
     </div>
     <h1>{varientcount}</h1>

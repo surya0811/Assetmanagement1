@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaTrash,FaPlus, FaShoppingCart } from 'react-icons/fa';
-import AddProductForm from './AddProductForm';
+import AddProductForm from './NewAddProduct';
 import PurchaseForm from './PurchaseForm'; 
 import AddVarientForm from './AddVarientForm';
 import AddVarientValue from './AddVarientValue';
@@ -12,6 +12,7 @@ import CustomAlert from "./CustomAlert";
 import { useNavigate } from 'react-router-dom';
 
 function ProductTable() {
+  
   const [data, setData] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showPurchaseForm, setShowPurchaseForm] = useState(false);
@@ -44,12 +45,12 @@ function ProductTable() {
     setShowPurchaseForm(!showPurchaseForm);
   };
 
- 
+ // eslint-disable-next-line
   const handlePurchaseSubmit = (productName) => {
     setPurchasedProduct(productName);
     setShowPurchaseForm(false);
   };
-
+// eslint-disable-next-line
   const handleAddVariant = (product) => {
     setSelectedProductId(product.productid);
   };
@@ -215,6 +216,7 @@ useEffect(() => {
           <tr className="bg-yellow-100 text-red-500 text-lg uppercase">
             <th className="border p-2">ID</th>
             <th className="border p-2">PRODUCT</th>
+            <th className="border p-2">PRODUCT Image</th>
             <th className="border p-2">ADD Variants</th>
             <th className="border p-2">DELETE Variants</th>
           </tr>
@@ -224,7 +226,10 @@ useEffect(() => {
             <tr key={i} className="border text-black uppercase text-center">
               <td className="border p-2 text-white">{d.productid}</td>
               <td className="border p-2 text-white">{d.productName}</td>
-              <td className="border p-2">
+              <td className="border p-2 text-white">
+              <img src={`/uploads/${d.productImage}`} alt={`${d.productName}`} style={{ width: '100px', height: 'auto' }} />
+              </td>
+               <td className="border p-2">
                 <button
                   className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={() => handleAddVariant(d)}

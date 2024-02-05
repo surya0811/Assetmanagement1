@@ -1,6 +1,6 @@
 // Report.jsx
 import React, { useState, useEffect } from 'react';
-import sucessimage from '../images/productreortback.png';
+import sucessimage from '../images/Designer.jpeg';
 const Report = () => {
   const [reportData, setReportData] = useState([]);
 

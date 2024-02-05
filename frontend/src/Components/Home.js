@@ -3,7 +3,7 @@ import {BsFillBellFill} from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import ProductCard from './productCard';
 import VarientCard from './VarientCard';
-import sucessimage from '../images/Data_Grid.mp4';
+import sucessimage from '../images/dashboard1.jpeg';
 import UserCard from './usercard';
 
 
@@ -56,9 +56,7 @@ const Home = () => {
   return (
    
       <main className='main-container'>
-        <video autoPlay loop muted className='fixed object-cover w-full h-full z-[-1]'>
-      <source src={sucessimage} type='video/mp4' />
-       </video>
+       <img src={sucessimage} alt="success" className='absolute object-cover w-full h-full z-[-3] mt-0' />
        
         <div className='main-cards'>
          
@@ -70,7 +68,7 @@ const Home = () => {
   
           <div className='card'>
             <div className='card-inner'>
-              <h3>ALERTS</h3>
+              <h3><em>ALERTS</em> </h3>
               <BsFillBellFill className='card_iicon' />
             </div>
             <h1>0</h1>
@@ -81,7 +79,7 @@ const Home = () => {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={500}
-              height={300}
+              heig  ht={300}
               data={data}
               margin={{
                 top: 5,

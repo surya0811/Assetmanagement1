@@ -26,7 +26,7 @@ function ProductCard() {
   return (
     <div className='card'>
     <div className='card-inner'>
-      <h3>PRODUCTS</h3>
+      <h3><em>PRODUCTS</em></h3>
       <BsGrid1X2Fill className='card_iicon' />
     </div>
     <h1>{productCount}</h1>

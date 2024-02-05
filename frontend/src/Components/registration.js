@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import backgroundImage from '../images/register.jpg'
+import backgroundImage from '../images/Designer.jpeg'
 import { useNavigate } from 'react-router-dom';
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -35,6 +35,7 @@ const RegistrationForm = () => {
       
     } else {
       // Registration failed, handle accordingly
+      console.log();
     }
   };
 

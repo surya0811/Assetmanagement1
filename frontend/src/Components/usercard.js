@@ -26,7 +26,7 @@ function UserCard() {
   return (
     <div className='card'>
       <div className='card-inner'>
-        <h3>USERS</h3>
+        <h3><em>USERS</em></h3>
         <BsPersonFill className='card_iicon' />
       </div>
       <h1>{userCount}</h1>

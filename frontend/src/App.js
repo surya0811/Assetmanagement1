@@ -14,6 +14,7 @@ import Report from "./Components/Report";
 import ProductReport from "./Components/ProductReport";
 import ResetPassword from "./Components/ForgotPasswordForm";
 import ResetPasswordPage from './Components/ResetPasswordPage';
+import Step3Form from './Components/Step3Form';
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
       <Route path="/productreport" element={<ProductReport />} />
       <Route path="/resetpassword" element={<ResetPassword/>}/>
       <Route path="/reset-password/:emailOrPhone" element={<ResetPasswordPage />} />
-      
+      <Route path="/step3Form" element={<Step3Form/>}/>
     </Routes>
   );
 }

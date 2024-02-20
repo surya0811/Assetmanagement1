@@ -60,7 +60,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.get('/api/products/count', (req, res) => {
-  const query = 'SELECT COUNT(*) as count FROM products'; // Replace 'products' with your actual table name
+  const query = 'SELECT COUNT(*) as count FROM products1'; // Replace 'products' with your actual table name
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -78,7 +78,7 @@ app.get('/api/products/count', (req, res) => {
   });
 });
 app.get('/api/products', (req, res) => {
-  const query = 'SELECT * FROM products'; // Replace 'products' with your actual table name
+  const query = 'SELECT * FROM products1'; // Replace 'products' with your actual table name
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -310,7 +310,7 @@ app.get('/assesst', (req, res) => {
       // Modify the response data to include full image URLs
       const modifiedData = data.map(product => ({
           ...product,
-          productImage: `http://localhost:3000/public/uploads/${product.productImage}`
+          productImage: `http://localhost:3000/${product.productImage}`
       }));
 
       return res.json(modifiedData);
@@ -319,20 +319,18 @@ app.get('/assesst', (req, res) => {
 
   
   app.post('/product', upload.single('productImage'), (req, res) => {
-    const { productid,productName, productDescription, variants, variantValues } = req.body;
+    const { productid,productName, productDescription } = req.body;
     const productImage = req.file ? req.file.path.replace(/\\/g, '/') : null;
   
     // Check if variants is present in the request body
-    if (!variants) {
-      return res.status(400).json({ success: false, error: 'Variants are required' });
-    }
+  
   
     // Convert variantValues array to a string without quotes and backslashes
  
   
     // Insert product data into MySQL database
-    const sql = "INSERT INTO products1(`productid`,`productName`, `productImage`, `productDescription`, `variants`, `variantValues`) VALUES (?, ?,?,?,?,?);"
-    const values = [productid,productName, productImage, productDescription, variants, variantValues];
+    const sql = "INSERT INTO products1(`productid`,`productName`, `productImage`, `productDescription`) VALUES (?, ?,?,?);"
+    const values = [productid,productName, productImage, productDescription];
    
     connection.query(sql, values, (err, result) => {
       if (err) {
@@ -411,7 +409,56 @@ app.get('/product/variants/:productName', (req, res) => {
     }
   });
 });
+app.post('/purchase', (req, res) => {
+  const { productName, variantValues } = req.body;
 
+  const sql = "INSERT INTO variantvalues (productid, variant, value) VALUES ?";
+
+  const valuesToInsert = Object.entries(variantValues).map(([variant, value]) => [
+    productName,
+  
+    variant,
+    value,
+  ]);
+
+  connection.query(sql, [valuesToInsert], (err, result) => {
+    if (err) {
+      console.error('Error inserting purchase data:', err);
+      res.status(500).json({ error: 'Failed to save purchase data.' });
+    } else {
+      res.status(200).json({ message: 'Purchase data saved successfully.' });
+    }
+  });
+});
+
+app.get('/productsfetch', (req, res) => {
+  connection.query('SELECT productName FROM products1', (error, rows) => {
+    if (error) {
+      console.error('Error fetching products from MySQL:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      const products = rows.map((row) => row.productName);
+      res.json({ products });
+    }
+  });
+});
+
+  // Endpoint to fetch variants based on the selected product
+  app.get('/variants1', (req, res) => {
+    const { product } = req.query;
+    console.log(product)
+    const sql = 'SELECT DISTINCT variant FROM productview WHERE productName = ?';
+  
+    connection.query(sql, [product], (err, result) => {
+      if (err) {
+        console.error('Error fetching variants from MySQL:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        const variants = result.map((row) => row.variant);
+        res.json({ variants });
+      }
+    });
+  });
 
 
 
@@ -421,7 +468,7 @@ app.get('/product/variants/:productName', (req, res) => {
 app.post('/purchase', (req, res) => {
   const { productName, variantValues } = req.body;
 
-  const sql = "INSERT INTO `variantvalues` (productname, variant, value) VALUES ?";
+  const sql = "INSERT INTO `variantvalues` (productid, variant, value) VALUES ?";
 
   const valuesToInsert = Object.entries(variantValues).map(([variant, value]) => [
     productName,
@@ -501,13 +548,14 @@ app.post('/addvariants',  (req, res) => {
 });
 
 
+
 //search here 
 // Handle search requests
 app.get('/search', (req, res) => {
   const { query } = req.query;
 
   
-  const sql = `SELECT * FROM products WHERE productName LIKE '%${query}%'`;
+  const sql = `SELECT * FROM products1 WHERE productName LIKE '%${query}%'`;
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -519,39 +567,76 @@ app.get('/search', (req, res) => {
   });
 });
 
-// Route for fetching variants for a product
-app.get('/product/:productId/variants', (req, res) => {
-  const { productId } = req.params;
+// // Route for fetching variants for a product
+// app.get('/product/:productId/variants', (req, res) => {
+//   const { productId } = req.params;
 
-  // Replace with your database query to fetch variants
-  const variantsQuery = `SELECT variant FROM varients WHERE productid = ${productId} `;
+//   // Replace with your database query to fetch variants
+//   const variantsQuery = `SELECT variant FROM varients WHERE productid = ${productId} `;
 
-  connection.query(variantsQuery, (err, results) => {
+//   connection.query(variantsQuery, (err, results) => {
+//     if (err) {
+//       console.error('Error fetching variants:', err);
+//       res.status(500).json({ error: 'Failed to fetch variants.' });
+//     } else {
+//       res.json({ variants: results.map((row) => row.variant) });
+//     }
+//   });
+// });
+
+
+// // Route for fetching variant values
+// app.get('/variants/:variant/values', (req, res) => {
+//   const { variant } = req.params;
+
+//   // Replace with your database query to fetch values for a variant
+//   const valuesQuery = `SELECT \`value\` FROM \`variantvalues\` WHERE \`variant\` = '${variant}'`;
+
+//   connection.query(valuesQuery, (err, results) => {
+//     if (err) {
+//       console.error('Error fetching variant values:', err);
+//       res.status(500).json({ error: 'Failed to fetch values.' });
+//     } else {
+//       res.json({ values: results.map((row) => row.value) });
+//     }
+//   });
+// });
+
+//add varinat value 
+// Route to fetch variants for a specific product
+app.get('/product/:productName/variants', (req, res) => {
+  const productName = req.params.productName;
+  const sql = 'SELECT variants FROM products1 WHERE productName = ?';
+  connection.query(sql, [productName], (err, results) => {
     if (err) {
       console.error('Error fetching variants:', err);
-      res.status(500).json({ error: 'Failed to fetch variants.' });
+      res.status(500).json({ error: 'Failed to fetch variants' });
+      return;
+    }
+    if (results.length === 0 || !results[0].variants) {
+      res.status(404).json({ error: 'Product not found or no variants available' });
     } else {
-      res.json({ variants: results.map((row) => row.variant) });
+      const variants = results[0].variants.split(',').map(variant => variant.trim());
+      res.json({ variants });
     }
   });
 });
 
+// Route to update variant values for a specific product
+app.post('/product/:productName/update-variant-values', (req, res) => {
+  const productName = req.params.productName;
+  const { variantValues } = req.body;
 
-// Route for fetching variant values
-app.get('/variants/:variant/values', (req, res) => {
-  const { variant } = req.params;
+  const sql = 'UPDATE products1 SET variantValues = ? WHERE productName = ?';
 
-  // Replace with your database query to fetch values for a variant
-  const valuesQuery = `SELECT \`value\` FROM \`variantvalues\` WHERE \`variant\` = '${variant}'`;
-
-  connection.query(valuesQuery, (err, results) => {
+  connection.query(sql, [variantValues, productName], (err, results) => {
     if (err) {
-      console.error('Error fetching variant values:', err);
-      res.status(500).json({ error: 'Failed to fetch values.' });
-    } else {
-      res.json({ values: results.map((row) => row.value) });
-    }
-  });
+      console.error('Error updating variant values:', err);
+      res.status(500).json({ error: 'Failed to update variant values' });
+      return;
+    }
+    res.json({ message: 'Variant values updated successfully' });
+  });
 });
 
 
@@ -560,7 +645,7 @@ app.get('/variants/:variant/values', (req, res) => {
 
 app.get('/variants1/:productId', (req, res) => {
   const { productId } = req.params;
-  const sql = 'SELECT variant FROM varients WHERE productid = ?';
+  const sql = 'SELECT variants FROM products1 WHERE productid = ?';
 
   connection.query(sql, [productId], (err, results) => {
     if (err) {
@@ -600,7 +685,7 @@ app.delete('/variants/delete', (req, res) => {
 
 
 app.get('/report', (req, res) => {
-  connection.query('SELECT * FROM filterview', (error, results) => {
+  connection.query('SELECT * FROM products1', (error, results) => {
     if (error) {
       console.error('Error querying database:', error);
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
@@ -609,6 +694,18 @@ app.get('/report', (req, res) => {
     }
   });
 });
+app.get('/productsfetch', (req, res) => {
+  connection.query('SELECT productName FROM products', (error, rows) => {
+    if (error) {
+      console.error('Error fetching products from MySQL:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      const products = rows.map((row) => row.productName);
+      res.json({ products });
+    }
+  });
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

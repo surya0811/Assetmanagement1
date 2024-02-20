@@ -3,7 +3,7 @@ import {BsFillBellFill} from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import ProductCard from './productCard';
 import VarientCard from './VarientCard';
-import sucessimage from '../images/dashboard1.jpeg';
+// import sucessimage from '../images/dashboard1.jpeg';
 import UserCard from './usercard';
 
 
@@ -56,7 +56,7 @@ const Home = () => {
   return (
    
       <main className='main-container'>
-       <img src={sucessimage} alt="success" className='absolute object-cover w-full h-full z-[-3] mt-0' />
+       {/* <img src={sucessimage} alt="success" className='absolute object-cover w-full h-full z-[-3] mt-0' /> */}
        
         <div className='main-cards'>
          

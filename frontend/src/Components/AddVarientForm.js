@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function AddVariantForm({ productId, onVariantAdded }) {
   const [variantDescriptions, setVariantDescriptions] = useState([]);
   const [newVariantDescription, setNewVariantDescription] = useState('');
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/addvariants`, {
+      const response = await fetch('http://localhost:3000/addvariants', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,8 +24,10 @@ function AddVariantForm({ productId, onVariantAdded }) {
 
       if (response.ok) {
         onVariantAdded();
-        window.alert("varients added sucessfully");
-        navigate('/dashboard');
+        window.alert("Variants added successfully");
+
+        // Redirect to AddVariantValue component
+        navigate('/addvarientvalue');
       } else {
         console.error('Failed to add variants.');
       }
@@ -47,7 +49,7 @@ function AddVariantForm({ productId, onVariantAdded }) {
 
   return (
     <div className="bg-gradient-to-r from-blue-600 via-green-500 to-yellow-400 p-4 rounded shadow">
-      <h2 className="text-xl text-black  font-semibold mb-4">Add Variants for Product ID: {productId}</h2>
+      <h2 className="text-xl text-black font-semibold mb-4">Add Variants for Product ID: {productId}</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex mb-4">
           <input
@@ -82,4 +84,4 @@ function AddVariantForm({ productId, onVariantAdded }) {
   );
 }
 
-export default AddVariantForm;
+export default AddVariantForm;

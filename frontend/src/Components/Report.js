@@ -15,20 +15,20 @@ const Report = () => {
     const groupedData = {};
 
     reportData.forEach((product) => {
-      const { productid, productName, variant, VariantValue } = product;
+      const { productid, productName, variants, variantValues } = product;
 
       if (!groupedData[productid]) {
         groupedData[productid] = { productName, variants: [] };
       }
 
-      const newVariant = { variant, VariantValue };
+      const newVariant = { variants, variantValues };
 
       const existingVariant = groupedData[productid].variants.find(
-        (v) => v.variant === newVariant.variant
+        (v) => v.variant === newVariant.variants
       );
 
       if (existingVariant) {
-        existingVariant.VariantValue += `, ${newVariant.VariantValue}`;
+        existingVariant.VariantValue += `, ${newVariant.variantValues}`;
       } else {
         groupedData[productid].variants.push(newVariant);
       }
@@ -50,15 +50,15 @@ const Report = () => {
           <tr className={`border-b text-black ${isEvenRow ? 'bg-green-300' : 'bg-yellow-200'}`}>
             <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productId}</td>
             <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productName}</td>
-            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{variants[0].variant}</td>
-            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{variants[0].VariantValue}</td>
+            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{variants[0].variants}</td>
+            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{variants[0].variantValues}</td>
           </tr>
           {variants.slice(1).map((variant, index) => (
             <tr key={`${productId}-${index}`} className={`border-b text-black text-center align-middle ${isEvenRow ? 'bg-green-300' : 'bg-yellow-200'}`}>
               <td className="py-2 px-4"></td>
               <td className="py-2 px-4"></td>
-              <td className="py-2 px-4">{variant.variant}</td>
-              <td className="py-2 px-4">{variant.VariantValue}</td>
+              <td className="py-2 px-4">{variant.variants}</td>
+              <td className="py-2 px-4">{variant.variantValues}</td>
             </tr>
           ))}
         </React.Fragment>

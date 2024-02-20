@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Step1Form from './Step1Form';
-import Step2Form from './Step2Form';
-import Step3Form from './Step3Form';
+
 
 const AddProductForm = () => {
   const [step, setStep] = useState(1);
@@ -15,8 +14,7 @@ const AddProductForm = () => {
     productName: '',
     productImage: '',
     productDescription: '',
-    variants: [],
-    variantValues: '',
+   
   });
 
   const handleNextStep = (data) => {
@@ -53,8 +51,7 @@ const AddProductForm = () => {
   formData.append('productid', productData.productid);
   formData.append('productName', productData.productName);
   formData.append('productDescription', productData.productDescription);
-  formData.append('variants',JSON.stringify(productData.variants));
-  formData.append('variantValues', JSON.stringify(productData.variantValues));
+ 
 
   // Append productImage only if it exists
   if (productData.productImage) {
@@ -79,8 +76,7 @@ const AddProductForm = () => {
         productName: '',
         productImage: '',
         productDescription: '',
-        variants: [],
-        variantValues: [],
+       
       });
       setStep(1);
     });
@@ -93,17 +89,17 @@ const AddProductForm = () => {
     switch (step) {
       case 1:
         return <Step1Form onNext={handleNextStep} />;
+      // case 2:
+      //   return <Step2Form onNext={handleNextStep} />;
+      // case 3:
+      //   return (
+      //     <Step3Form
+      //       variants={productData.variants}
+      //       onAddValues={handleAddValues}
+      //       onNext={() => setStep(step + 1)}
+      //     />
+      //   );
       case 2:
-        return <Step2Form onNext={handleNextStep} />;
-      case 3:
-        return (
-          <Step3Form
-            variants={productData.variants}
-            onAddValues={handleAddValues}
-            onNext={() => setStep(step + 1)}
-          />
-        );
-      case 4:
         return (
           <div>
             <p className="text-lg font-semibold mb-4 text-white">
@@ -121,7 +117,7 @@ const AddProductForm = () => {
   return (
     <div className="max-w-xl mx-auto mt-8 p-6 bg-gradient-to-r from-blue-300 to-purple-300 rounded-lg shadow-lg">
       <div className="max-w-md mx-auto mb-8">{renderCurrentStep()}</div>
-      {step === 4 && (
+      {step === 2 && (
         <div>
           <p className="text-lg font-semibold mb-4 text-white">
             Review your product information:
@@ -146,7 +142,7 @@ const AddProductForm = () => {
           <div className="mb-2 text-white">
             <span className="font-bold">Description:</span> {productData.productDescription}
           </div>
-          <div className="mb-2 font-bold text-white">Variants:</div>
+          {/* <div className="mb-2 font-bold text-white">Variants:</div>
           <ul className="list-disc pl-4 text-white">
   {productData.variantValues.map((values, index) => (
     <li key={index} className="mb-2">
@@ -157,7 +153,7 @@ const AddProductForm = () => {
       ))}
     </li>
   ))}
-</ul>
+</ul> */}
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
             onClick={handleNext}

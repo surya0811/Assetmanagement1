@@ -4,7 +4,8 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import sucessimage from '../images/loginback.mp4';
+// import sucessimage from '../images/loginback.mp4';
+import sucessimage from '../images/login4.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import './LoginForm.css';
@@ -73,10 +74,18 @@ const LoginForm = () => {
   }, []); 
 
   return (
-    <div className='relative'>
-      <video autoPlay loop muted className='fixed object-cover w-full h-full z-[-1]'>
+    <div className='relative'style={{
+      backgroundImage: `url(${sucessimage})`,
+      backgroundSize: 'cover',
+      marginTop:'1px',
+    }}
+  >
+     <div className='heading'>
+        <h1 className='text-white uppercase text-4xl font-bold p-4 bg-black'>Asset Management System</h1>
+      </div>
+      {/* <video autoPlay loop muted className='fixed object-cover w-full h-full z-[-1]'>
         <source src={sucessimage} type='video/mp4' />
-      </video>
+      </video> */}
 
       <div className='flex h-screen justify-center items-center relative z-10'>
         <div className='flex flex-col gap-4 border-2 border-slate-300 rounded-md p-6 bg-blue'>
@@ -85,15 +94,15 @@ const LoginForm = () => {
           </div>
           <p style={{ textAlign: 'center', color: 'red', font: '14px', fontFamily: 'bold' }}>{message}</p>
 
-          <div className='flex items-center rounded-full bg-zinc-400'>
+          <div className='flex items-center rounded-full bg-zinc-400 border-black-800'>
             <HiOutlineUser className='w-10 h-6 border-r-2 border-blue' />
             <select
               id='user-type'
               value={usertype}
               onChange={(e) => setusertype(e.target.value)}
-              className='outline-none bg-zinc-400 p-1 w-100'
+              className='outline-none bg-zinc-400 p-1 w-100 text-black placeholder-black'
             >
-              <option>Select user type</option>
+              <option>Select User Type</option>
               <option value='user'>User</option>
               <option value='admin'>Admin</option>
             </select>
@@ -103,10 +112,10 @@ const LoginForm = () => {
             <HiOutlineUser className='w-10 h-6 border-r-2 border-blue' />
             <input
               type='text'
-              placeholder=' enter username'
+              placeholder=' Enter Username'
               value={username}
               onChange={(e) => setusername(e.target.value)}
-              className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
+              className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold placeholder-black'
             />
           </div>
 
@@ -114,10 +123,10 @@ const LoginForm = () => {
             <RiLockPasswordFill className='w-10 h-6 border-r-2 border-blue' />
             <input
               type={showPassword ? 'text' : 'password'} // Toggle between text and password
-              placeholder=' enter password'
+              placeholder=' Enter Password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold white-placeholder'
+              className='outline-none bg-zinc-400 p-1 w-70 text-black-800 font-bold placeholder-black'
             />
             <div
               className='cursor-pointer'
@@ -131,7 +140,7 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <div className='flex items-center justify-center text-white text-xl font-line-through'>
+          <div className='flex items-center justify-center text-black text-xl font-line-through'>
             <p>{captchaText}</p>
             <button
               onClick={fetchCaptchaText}
@@ -148,7 +157,7 @@ const LoginForm = () => {
               placeholder='Enter CAPTCHA'
               value={userEnteredCaptcha}
               onChange={(e) => setUserEnteredCaptcha(e.target.value)}
-              className='outline-none bg-zinc-400 p-1 w-80  align-center text-black-800 font-bold  white-placeholder'
+              className='outline-none bg-zinc-400 p-1 w-80  align-center text-black-800 font-bold placeholder-black'
             />
           </div>
           <button

@@ -4,7 +4,7 @@ import AddProductForm from './NewAddProduct';
 import PurchaseForm from './PurchaseForm'; 
 import AddVarientForm from './AddVarientForm';
 import AddVarientValue from './AddVarientValue';
-import sucessimage from '../images/sucess2.jpeg';
+import sucessimage from '../images/sucess2.png';
 import "./Style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -189,10 +189,11 @@ useEffect(() => {
 }, [showAddVarientValueForm]);
 
   return (
-    <div className="p-4 bg-gray-100"
+    <div className="p-4"
     style={{
       backgroundImage: `url(${sucessimage})`,
       backgroundSize: 'cover',
+      opacity:'6'
       
     }}
     >
@@ -203,7 +204,7 @@ useEffect(() => {
         >
           <FaShoppingCart className="mr-2" /> Purchase
         </button>
-        <h2 className="text-5xl font-bold text-center uppercase marquee1 text-purple-800">Asset management system</h2>
+        <h2 className="text-5xl font-semibold text-center uppercase marquee1 text-black-800">Asset management system</h2>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleToggleForm}
@@ -211,7 +212,7 @@ useEffect(() => {
           <FaPlus className="mr-2" /> Add New Product
         </button>
       </div>
-      <table className="border-collapse border w-full bg-black mt-7">
+      <table className="border-collapse border w-full  mt-7">
         <thead>
           <tr className="bg-yellow-100 text-red-500 text-lg uppercase">
             <th className="border p-2">ID</th>
@@ -223,11 +224,11 @@ useEffect(() => {
         </thead>
         <tbody>
           {data.map((d, i) => (
-            <tr key={i} className="border text-black uppercase text-center">
-              <td className="border p-2 text-white">{d.productid}</td>
-              <td className="border p-2 text-white">{d.productName}</td>
-              <td className="border p-2 text-white">
-              <img src={`/uploads/${d.productImage}`} alt={`${d.productName}`} style={{ width: '100px', height: 'auto' }} />
+            <tr key={i} className="border text-black uppercase text-center font-bold">
+              <td className="border p-2 text-black">{d.productid}</td>
+              <td className="border p-2 text-black">{d.productName}</td>
+              <td className="border p-2 text-black">
+              {<img src={`http://localhost:3000/uploads/`+ d.productImage} alt={`${d.productName}`}  style={{ width: '100px', height: 'auto' }} />}
               </td>
                <td className="border p-2">
                 <button

@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `assetmanagement` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `assetmanagement`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: assetmanagement
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,28 +16,29 @@ USE `assetmanagement`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `adminlogin`
+-- Table structure for table `variantvalues`
 --
 
-DROP TABLE IF EXISTS `adminlogin`;
+DROP TABLE IF EXISTS `variantvalues`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `adminlogin` (
+CREATE TABLE `variantvalues` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `productid` varchar(45) NOT NULL,
+  `variant` varchar(95) NOT NULL,
+  `value` varchar(95) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adminlogin`
+-- Dumping data for table `variantvalues`
 --
 
-LOCK TABLES `adminlogin` WRITE;
-/*!40000 ALTER TABLE `adminlogin` DISABLE KEYS */;
-INSERT INTO `adminlogin` VALUES (1,'surya','surya@123'),(2,'aravind','aravind@456');
-/*!40000 ALTER TABLE `adminlogin` ENABLE KEYS */;
+LOCK TABLES `variantvalues` WRITE;
+/*!40000 ALTER TABLE `variantvalues` DISABLE KEYS */;
+INSERT INTO `variantvalues` VALUES (1,'keyboard','kb size','15.6 inch'),(2,'keyboard','kb type','wireless usb'),(3,'ases 15.6','moniter type','oled'),(4,'ases 15.6','moniter model','samsung 2021'),(5,'ases 15.6','moniter size','21.6 inch'),(6,'ases 15.6','moniter supply','AC 230 V');
+/*!40000 ALTER TABLE `variantvalues` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-04  8:02:55
+-- Dump completed on 2024-02-21 15:31:10

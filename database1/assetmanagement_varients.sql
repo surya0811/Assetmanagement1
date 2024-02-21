@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `assetmanagement` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `assetmanagement`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: assetmanagement
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,31 +16,30 @@ USE `assetmanagement`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `userlogin`
+-- Table structure for table `varients`
 --
 
-DROP TABLE IF EXISTS `userlogin`;
+DROP TABLE IF EXISTS `varients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `userlogin` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `email` varchar(65) NOT NULL,
-  `phonenumber` varchar(45) NOT NULL,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `varients` (
+  `varientid` int NOT NULL AUTO_INCREMENT,
+  `variant` varchar(45) NOT NULL,
+  `productid` varchar(45) NOT NULL,
+  PRIMARY KEY (`varientid`),
+  KEY `productid_idx` (`productid`),
+  CONSTRAINT `productid` FOREIGN KEY (`productid`) REFERENCES `products1` (`productid`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `userlogin`
+-- Dumping data for table `varients`
 --
 
-LOCK TABLES `userlogin` WRITE;
-/*!40000 ALTER TABLE `userlogin` DISABLE KEYS */;
-INSERT INTO `userlogin` VALUES (1,'badrinathan','badri@gmail.com','9633548792','badri001','badri@001');
-/*!40000 ALTER TABLE `userlogin` ENABLE KEYS */;
+LOCK TABLES `varients` WRITE;
+/*!40000 ALTER TABLE `varients` DISABLE KEYS */;
+INSERT INTO `varients` VALUES (1,'kb size','csel3kb001'),(2,'kb type','csel3kb001'),(3,'moniter type','csel3mo001'),(4,'moniter model','csel3mo001'),(5,'moniter size','csel3mo001'),(6,'moniter supply','csel3mo001');
+/*!40000 ALTER TABLE `varients` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-04  8:02:55
+-- Dump completed on 2024-02-21 15:31:10

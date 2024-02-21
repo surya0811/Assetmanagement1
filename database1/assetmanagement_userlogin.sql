@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `assetmanagement` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `assetmanagement`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: assetmanagement
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.34
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,27 +16,31 @@ USE `assetmanagement`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `products`
+-- Table structure for table `userlogin`
 --
 
-DROP TABLE IF EXISTS `products`;
+DROP TABLE IF EXISTS `userlogin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `products` (
-  `productid` int NOT NULL AUTO_INCREMENT,
-  `productName` varchar(45) NOT NULL,
-  PRIMARY KEY (`productid`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `userlogin` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `email` varchar(65) NOT NULL,
+  `phonenumber` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `products`
+-- Dumping data for table `userlogin`
 --
 
-LOCK TABLES `products` WRITE;
-/*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (2,'laptop'),(3,'projector'),(4,'AC'),(5,'bulb'),(12,'ups'),(18,'fan'),(19,'chair'),(20,'cpu');
-/*!40000 ALTER TABLE `products` ENABLE KEYS */;
+LOCK TABLES `userlogin` WRITE;
+/*!40000 ALTER TABLE `userlogin` DISABLE KEYS */;
+INSERT INTO `userlogin` VALUES (1,'vemparala venkata surya','11209a020@kanchiuniv.ac.in','9963447781','surya','surya@123'),(2,'koushik','11209a014@kanchiuniv.ac.in','96335947526','koushik','koushik@456'),(3,'aravind ','11209m001@kanchiuniv.ac.in','8797859952','aravind','Aravind@1234');
+/*!40000 ALTER TABLE `userlogin` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-04  8:02:55
+-- Dump completed on 2024-02-21 15:31:09

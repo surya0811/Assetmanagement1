@@ -4,7 +4,7 @@ import AddProductForm from './NewAddProduct';
 import PurchaseForm from './PurchaseForm'; 
 import AddVarientForm from './AddVarientForm';
 import AddVarientValue from './AddVarientValue';
-import sucessimage from '../images/sucess2.png';
+import sucessimage from '../images/sucess2.jpg';
 import "./Style.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -192,8 +192,8 @@ useEffect(() => {
     <div className="p-4"
     style={{
       backgroundImage: `url(${sucessimage})`,
-      backgroundSize: 'cover',
-      opacity:'6'
+      backgroundSize:'inherit',
+      opacity:'3'
       
     }}
     >
@@ -212,7 +212,7 @@ useEffect(() => {
           <FaPlus className="mr-2" /> Add New Product
         </button>
       </div>
-      <table className="border-collapse border w-full  mt-7">
+      <table className="border-collapse border border-blue-800 shadow-lg w-full mt-4">
         <thead>
           <tr className="bg-yellow-100 text-red-500 text-lg uppercase">
             <th className="border p-2">ID</th>
@@ -224,29 +224,34 @@ useEffect(() => {
         </thead>
         <tbody>
           {data.map((d, i) => (
-            <tr key={i} className="border text-black uppercase text-center font-bold">
+            <tr key={i} className="border-blue-800 text-black uppercase text-center font-bold">
               <td className="border p-2 text-black">{d.productid}</td>
               <td className="border p-2 text-black">{d.productName}</td>
-              <td className="border p-2 text-black">
-              {<img src={`http://localhost:3000/uploads/`+ d.productImage} alt={`${d.productName}`}  style={{ width: '100px', height: 'auto' }} />}
+              <td className="border p-2 text-black image-cell">
+             <img 
+                  src={`${d.productImage}`} 
+                  alt={`${d.productName}`}  
+                  style={{ width: '150px', height: '150px' }}
+                  onError={(e) => console.log('Image failed to load:', e)}
+                />
               </td>
-               <td className="border p-2">
+                <td className="border p-2">
                 <button
-                  className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
                   onClick={() => handleAddVariant(d)}
                 >
-                   <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                      Add New variant
+                  <FontAwesomeIcon icon={faPlus} className="mr-2" />
+                  Add New variant
                 </button>
-               
               </td>
-              <td className="border p-2 flex justify-center items-center">
-                <button className="bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center align-center" 
-                onClick={() => handleDeleteVariant(d.productid)}>
+              <td className="border p-2">
+                <button className="bg-red-500 hover-bg-red-700 text-white font-bold py-2 px-4 rounded items-center" 
+                  onClick={() => handleDeleteVariant(d.productid)}>
                   <FaTrash className="mr-2" />
                   Delete Variants
                 </button>
               </td>
+
 
             </tr>
           ))}

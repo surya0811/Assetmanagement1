@@ -38,7 +38,7 @@ app.use(
   })
 );
 app.use(express.static('public'));
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use('/public/uploads', express.static(path.join(__dirname, 'public/uploads')));
 const connection =   mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -645,7 +645,7 @@ app.post('/product/:productName/update-variant-values', (req, res) => {
 
 app.get('/variants1/:productId', (req, res) => {
   const { productId } = req.params;
-  const sql = 'SELECT variants FROM products1 WHERE productid = ?';
+  const sql = 'SELECT variant FROM varients WHERE productid = ?';
 
   connection.query(sql, [productId], (err, results) => {
     if (err) {

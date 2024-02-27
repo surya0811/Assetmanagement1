@@ -6,6 +6,7 @@ const Step1Form = ({ onNext }) => {
   const [productImage, setProductImage] = useState('');
   const [productImageFile, setProductImageFile] = useState(null); // State to store the image file
   const [productDescription, setProductDescription] = useState('');
+  const [department, setDepartment] = useState('');
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -22,7 +23,7 @@ const Step1Form = ({ onNext }) => {
   const handleNext = () => {
     // Validate the input if needed
     // Call the onNext function to move to the next step
-    onNext({ productid,productName, productImage: productImageFile, productDescription });
+    onNext({ productid,productName, department,productImage: productImageFile, productDescription });
   };
 
   return (
@@ -45,6 +46,21 @@ const Step1Form = ({ onNext }) => {
           onChange={(e) => setProductName(e.target.value)}
         />
       </label>
+      <label className="block mb-4">
+        <span className="text-gray-700">Department:</span>
+        <select
+          className="form-select mt-1 block w-full border p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
+          value={department}
+          onChange={(e) => setDepartment(e.target.value)}
+        >
+          <option value="">Select Department</option>
+          <option value="CSE">Computer Science Engineering</option>
+          <option value="ECE">Electronics and Communication Engineering</option>
+          <option value="Mech">Mechanical Engineering</option>
+          <option value="Civil">Civil Engineering</option>
+        </select>
+      </label>
+
       <label className="block mb-4">
         <span className="text-gray-700">Product Image:</span>
         <input

@@ -319,7 +319,7 @@ app.get('/assesst', (req, res) => {
 
   
   app.post('/product', upload.single('productImage'), (req, res) => {
-    const { productid,productName, productDescription } = req.body;
+    const { productid,productName, department,productDescription } = req.body;
     const productImage = req.file ? req.file.path.replace(/\\/g, '/') : null;
   
     // Check if variants is present in the request body
@@ -329,8 +329,8 @@ app.get('/assesst', (req, res) => {
  
   
     // Insert product data into MySQL database
-    const sql = "INSERT INTO products1(`productid`,`productName`, `productImage`, `productDescription`) VALUES (?, ?,?,?);"
-    const values = [productid,productName, productImage, productDescription];
+    const sql = "INSERT INTO products1(`productid`,`productName`, `department`,`productImage`, `productDescription`) VALUES (?, ?,?,?,?);"
+    const values = [productid,productName, department,productImage, productDescription];
    
     connection.query(sql, values, (err, result) => {
       if (err) {

@@ -12,6 +12,7 @@ const AddProductForm = () => {
   const [productData, setProductData] = useState({
     productid:'',
     productName: '',
+    department:'',
     productImage: '',
     productDescription: '',
    
@@ -51,6 +52,8 @@ const AddProductForm = () => {
   formData.append('productid', productData.productid);
   formData.append('productName', productData.productName);
   formData.append('productDescription', productData.productDescription);
+  formData.append('department', productData.department);
+  
  
 
   // Append productImage only if it exists
@@ -61,7 +64,7 @@ const AddProductForm = () => {
   axios.post('http://localhost:3000/product', formData)
     .then(response => {
       console.log('Server response:', response.data);
-      // Handle any additional logic based on the server response
+      alert("Data submitted sucessfully "+ productData.productid)
     })
     .catch(error => {
       console.error('Error submitting product:', error);
@@ -74,6 +77,7 @@ const AddProductForm = () => {
       setProductData({
         productid:'',
         productName: '',
+        department:'',
         productImage: '',
         productDescription: '',
        
@@ -128,6 +132,9 @@ const AddProductForm = () => {
           <div className="mb-2 text-white ">
             <span className="font-bold">Name:</span> {productData.productName}
           </div>
+          <div className="mb-2 text-white ">
+            <span className="font-bold">Department:</span> {productData.department}
+          </div>
           {productData.productImage && (
             <div className="mb-2 text-white">
                 <span className="font-bold">Image:</span>
@@ -142,18 +149,6 @@ const AddProductForm = () => {
           <div className="mb-2 text-white">
             <span className="font-bold">Description:</span> {productData.productDescription}
           </div>
-          {/* <div className="mb-2 font-bold text-white">Variants:</div>
-          <ul className="list-disc pl-4 text-white">
-  {productData.variantValues.map((values, index) => (
-    <li key={index} className="mb-2">
-      {Object.entries(values).map(([variant, value]) => (
-        <div key={variant}>
-          <span className="font-bold">{variant}:</span> {Array.isArray(value) ? value.join(', ') : value}
-        </div>
-      ))}
-    </li>
-  ))}
-</ul> */}
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
             onClick={handleNext}

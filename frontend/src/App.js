@@ -15,11 +15,13 @@ import ProductReport from "./Components/ProductReport";
 import ResetPassword from "./Components/ForgotPasswordForm";
 import ResetPasswordPage from './Components/ResetPasswordPage';
 import Step3Form from './Components/Step3Form';
+import Search from './Components/Search';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginForm />} />
+      <Route path="/search" element={<Search/>}/>
       <Route path="/registration" element={<RegistrationForm />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/product" element={<AddProductForm />} />

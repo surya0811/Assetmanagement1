@@ -13,6 +13,7 @@ const AddProductForm = () => {
     productid:'',
     productName: '',
     department:'',
+    lab:'',
     productImage: '',
     productDescription: '',
    
@@ -53,7 +54,7 @@ const AddProductForm = () => {
   formData.append('productName', productData.productName);
   formData.append('productDescription', productData.productDescription);
   formData.append('department', productData.department);
-  
+  formData.append('lab', productData.lab);
  
 
   // Append productImage only if it exists
@@ -78,6 +79,7 @@ const AddProductForm = () => {
         productid:'',
         productName: '',
         department:'',
+        lab:'',
         productImage: '',
         productDescription: '',
        
@@ -134,6 +136,9 @@ const AddProductForm = () => {
           </div>
           <div className="mb-2 text-white ">
             <span className="font-bold">Department:</span> {productData.department}
+          </div>
+          <div className="mb-2 text-white ">
+            <span className="font-bold">Lab:</span> {productData.lab}
           </div>
           {productData.productImage && (
             <div className="mb-2 text-white">

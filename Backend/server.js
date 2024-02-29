@@ -319,7 +319,7 @@ app.get('/assesst', (req, res) => {
 
   
   app.post('/product', upload.single('productImage'), (req, res) => {
-    const { productid,productName, department,productDescription } = req.body;
+    const { productid,productName, department,lab,productDescription } = req.body;
     const productImage = req.file ? req.file.path.replace(/\\/g, '/') : null;
   
     // Check if variants is present in the request body
@@ -329,8 +329,8 @@ app.get('/assesst', (req, res) => {
  
   
     // Insert product data into MySQL database
-    const sql = "INSERT INTO products1(`productid`,`productName`, `department`,`productImage`, `productDescription`) VALUES (?, ?,?,?,?);"
-    const values = [productid,productName, department,productImage, productDescription];
+    const sql = "INSERT INTO products1(`productid`,`productName`, `departmentcode`,`labcode`,`productImage`, `productDescription`) VALUES (?, ?,?,?,?,?);"
+    const values = [productid,productName, department,lab,productImage, productDescription];
    
     connection.query(sql, values, (err, result) => {
       if (err) {
@@ -695,7 +695,7 @@ app.get('/report', (req, res) => {
   });
 });
 app.get('/productsfetch', (req, res) => {
-  connection.query('SELECT productName FROM products', (error, rows) => {
+  connection.query('SELECT productName FROM products1', (error, rows) => {
     if (error) {
       console.error('Error fetching products from MySQL:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -705,6 +705,93 @@ app.get('/productsfetch', (req, res) => {
     }
   });
 });
+//// Endpoint to get departments
+app.get('/departments', (req, res) => {
+  const sql = 'SELECT * FROM department'; // Update table name accordingly
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching departments:', err);
+      res.status(500).json({ error: 'Failed to fetch departments.' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+app.get('/lab', (req, res) => {
+  const sql = 'SELECT * FROM labinfo'; // Update table name accordingly
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching lab:', err);
+      res.status(500).json({ error: 'Failed to fetch departments.' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+// Endpoint to get labs based on department code
+app.get('/labs', (req, res) => {
+  const { departmentCode } = req.query;
+  // console.log(departmentCode);
+  if (!departmentCode) {
+    return res.status(400).json({ error: 'Missing departmentCode parameter.' });
+  }
+
+  const sql = 'SELECT * FROM labinfo WHERE departmentcode = ?';
+  
+  connection.query(sql, [departmentCode], (err, results) => {
+    if (err) {
+      console.error('Error fetching labs:', err);
+      res.status(500).json({ error: 'Failed to fetch labs.' });
+    } else {
+      // console.log(results)
+      res.json(results);
+    }
+  });
+});
+
+// app.get('/productsdisplay', (req, res) => {
+//   const { labCode } = req.query;
+//   if (!labCode) {
+//     return res.status(400).json({ error: 'Missing labCode parameter.' });
+//   }
+//   const sql = 'SELECT * FROM products1 WHERE labcode = ?';
+
+//   connection.query(sql, [labCode], (err, results) => {
+//     if (err) {
+//       console.error('Error fetching products:', err);
+//       res.status(500).json({ error: 'Failed to fetch products.' });
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+app.get('/productsdisplay', (req, res) => {
+  const { labCode } = req.query;
+  if (!labCode) {
+    return res.status(400).json({ error: 'Missing labCode parameter.' });
+  }
+  const sql = 'SELECT productName, departmentcode, labcode, productImage, productDescription FROM products1 WHERE labCode = ?';
+
+  connection.query(sql, [labCode], (err, results) => {
+    if (err) {
+      console.error('Error fetching products:', err);
+      res.status(500).json({ error: 'Failed to fetch products.' });
+    } else {
+      // Modify the response data to include full image URLs
+      const modifiedResults = results.map(product => ({
+        ...product,
+        productImage: `http://localhost:3000/${product.productImage}` // Assuming productImage contains the path to images
+      }));
+
+      res.json(modifiedResults);
+    }
+  });
+});
+
 
 
 app.listen(port, () => {

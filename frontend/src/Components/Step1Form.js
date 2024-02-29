@@ -1,12 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Step1Form = ({ onNext }) => {
   const [productid, setProductid] = useState('');
   const [productName, setProductName] = useState('');
   const [productImage, setProductImage] = useState('');
-  const [productImageFile, setProductImageFile] = useState(null); // State to store the image file
+  const [productImageFile, setProductImageFile] = useState(null);
   const [productDescription, setProductDescription] = useState('');
-  const [department, setDepartment] = useState('');
+  const [departmentOptions, setDepartmentOptions] = useState([]);
+  const [labOptions, setLabOptions] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedLab, setSelectedLab] = useState('');
+
+  
+  useEffect(() => {
+    fetchDepartments();
+  }, []);
+
+  useEffect(() => {
+    if (selectedDepartment) {
+      fetchLabs();
+    }
+  }, [selectedDepartment]);
+
+  const fetchDepartments = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/departments');
+      const data = await response.json();
+      setDepartmentOptions(data);
+    } catch (error) {
+      console.error('Error fetching departments:', error);
+    }
+  };
+
+  const fetchLabs = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/labs?departmentCode=${selectedDepartment}`);
+      const data = await response.json();
+      setLabOptions(data);
+    } catch (error) {
+      console.error('Error fetching Labs:', error);
+    }
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -16,19 +50,24 @@ const Step1Form = ({ onNext }) => {
         setProductImage(reader.result);
       };
       reader.readAsDataURL(file);
-      setProductImageFile(file); // Save the file itself
+      setProductImageFile(file);
     }
   };
 
   const handleNext = () => {
-    // Validate the input if needed
-    // Call the onNext function to move to the next step
-    onNext({ productid,productName, department,productImage: productImageFile, productDescription });
+    onNext({
+      productid,
+      productName,
+      department: selectedDepartment,
+      lab: selectedLab,
+      productImage: productImageFile,
+      productDescription
+    });
   };
 
   return (
     <div className="max-w-md mx-auto p-4 bg-white rounded shadow">
-       <label className="block mb-4">
+      <label className="block mb-4">
         <span className="text-gray-700">Product id:</span>
         <input
           className="form-input mt-1 block w-full border p-2 rounded focus:outline-none focus:ring focus:border-blue-300 uppercase"
@@ -50,17 +89,32 @@ const Step1Form = ({ onNext }) => {
         <span className="text-gray-700">Department:</span>
         <select
           className="form-select mt-1 block w-full border p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
-          value={department}
-          onChange={(e) => setDepartment(e.target.value)}
+          value={selectedDepartment}
+          onChange={(e) => setSelectedDepartment(e.target.value)}
         >
           <option value="">Select Department</option>
-          <option value="CSE">Computer Science Engineering</option>
-          <option value="ECE">Electronics and Communication Engineering</option>
-          <option value="Mech">Mechanical Engineering</option>
-          <option value="Civil">Civil Engineering</option>
+          {departmentOptions.map((department) => (
+            <option key={department.departmentcode} value={department.departmentcode}>
+              {department.department}
+            </option>
+          ))}
         </select>
       </label>
-
+      <label className="block mb-4">
+        <span className="text-gray-700">Lab:</span>
+        <select
+          className="form-select mt-1 block w-full border p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
+          value={selectedLab}
+          onChange={(e) => setSelectedLab(e.target.value)}
+        >
+          <option value="">Select Lab</option>
+          {labOptions.map((lab) => (
+            <option key={lab.labcode} value={lab.labcode}>
+              {lab.labname}
+            </option>
+          ))}
+        </select>
+      </label>
       <label className="block mb-4">
         <span className="text-gray-700">Product Image:</span>
         <input

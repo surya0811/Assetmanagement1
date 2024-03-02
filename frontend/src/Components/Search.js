@@ -116,6 +116,7 @@ const Search = () => {
         );
 
         setEditingProduct(null);
+        alert(`Product with ID ${editingProduct.productid} saved successfully.`);
       } else {
         console.error('Failed to update product');
       }
@@ -168,6 +169,7 @@ const Search = () => {
         <table className="border-collapse border border-blue-800 shadow-lg w-full mt-4">
           <thead>
             <tr className="bg-yellow-100 text-red-500 text-l uppercase">
+            <th className="px-4 py-2">Product ID</th>
               <th className="px-4 py-2">Product Name</th>
               <th className="px-4 py-2">Department Code</th>
               <th className="px-4 py-2">Lab Code</th>
@@ -177,50 +179,58 @@ const Search = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <tr key={product.productid} className="border-blue-800 text-black uppercase text-center font-bold">
-                <td className="border px-4 py-2">{product.productName}</td>
-                <td className="border px-4 py-2">{product.departmentcode}</td>
-                <td className="border px-4 py-2">{product.labcode}</td>
-                <td className="border px-4 py-2">
-                  <img
-                    src={`${product.productImage}`}
-                    alt={`${product.productName}`}
-                    style={{ width: '150px', height: '150px' }}
-                    onError={(e) => console.log('Image failed to load:', e)}
-                  />
-                </td>
-                <td className="border px-4 py-2">{product.productDescription}</td>
-                <td className="border px-4 py-2">
-                  {editingProduct && editingProduct.productid === product.productid ? (
-                    <form onSubmit={handleEditSubmit} className="flex items-center">
-                      <input
-                        type="text"
-                        name="departmentCode"
-                        defaultValue={product.departmentcode}
-                        className="w-1/4 p-3 border border-gray-300 rounded-md mr-2 bg-gray-100"
-                      />
-                      <input
-                        type="text"
-                        name="labCode"
-                        defaultValue={product.labcode}
-                        className="w-1/4 p-3 border border-gray-300 rounded-md mr-2 bg-gray-100"
-                      />
-                      <button type="submit" className="bg-blue-500 text-white p-3 rounded-md">
-                        Save
-                      </button>
-                    </form>
-                  ) : (
-                    <button
-                      onClick={() => handleEditClick(product)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded-md"
-                    >
-                      Edit
+          {products && products.length > 0 && products.map((product) => (
+            <tr key={product.productid} className="border-blue-800 text-black uppercase text-center font-bold">
+              {/* Product details */}
+              <td className="border px-4 py-2">{product.productid}</td>
+              <td className="border px-4 py-2">{product.productName}</td>
+              <td className="border px-4 py-2">{product.departmentcode}</td>
+              <td className="border px-4 py-2">{product.labcode}</td>
+              <td className="border px-4 py-2">
+                <img
+                  src={`${product.productImage}`}
+                  alt={`${product.productName}`}
+                  style={{ width: '150px', height: '150px' }}
+                  onError={(e) => console.log('Image failed to load:', e)}
+                />
+              </td>
+              <td className="border px-4 py-2">{product.productDescription}</td>
+              {/* Actions */}
+              <td className="border px-4 py-2">
+                {editingProduct && editingProduct.productid === product.productid ? (
+                  // Edit form
+                  <form onSubmit={handleEditSubmit} className="flex items-center">
+                    <input
+                      type="text"
+                      name="departmentCode"
+                      defaultValue={product.departmentcode}
+                      className="w-1/4 p-3 border border-gray-300 rounded-md mr-2 bg-gray-100"
+                    />
+                    <input
+                      type="text"
+                      name="labCode"
+                      defaultValue={product.labcode}
+                      className="w-1/4 p-3 border border-gray-300 rounded-md mr-2 bg-gray-100"
+                    />
+                    <button type="submit" className="bg-blue-500 text-white p-3 rounded-md">
+                      Save
                     </button>
-                  )}
-                </td>
-              </tr>
-            ))}
+                  </form>
+                ) : (
+                  // Edit button
+                  <button
+                    onClick={() => handleEditClick(product)}
+                    className="bg-yellow-500 text-white px-3 py-1 rounded-md"
+                    disabled={!!editingProduct}
+                  >
+                    Edit
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+
+
           </tbody>
         </table>
       </div>

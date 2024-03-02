@@ -774,7 +774,7 @@ app.get('/productsdisplay', (req, res) => {
   if (!labCode) {
     return res.status(400).json({ error: 'Missing labCode parameter.' });
   }
-  const sql = 'SELECT productName, departmentcode, labcode, productImage, productDescription FROM products1 WHERE labCode = ?';
+  const sql = 'SELECT productid,productName, departmentcode, labcode, productImage, productDescription FROM products1 WHERE labCode = ?';
 
   connection.query(sql, [labCode], (err, results) => {
     if (err) {
@@ -792,6 +792,30 @@ app.get('/productsdisplay', (req, res) => {
   });
 });
 
+app.put('/editproduct/:id', (req, res) => {
+  const productId = req.params.id;
+  const { departmentcode, labcode /* Add other fields as needed */ } = req.body;
+
+  // Perform the database update here
+  // Replace the following lines with your actual database update logic
+  const sql = 'UPDATE products1 SET departmentcode=?, labcode=? WHERE productid=?';
+  const values = [departmentcode, labcode, productId];
+
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error updating product:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (result.affectedRows > 0) {
+      // Update was successful
+      res.status(200).json({ message: 'Product updated successfully' });
+    } else {
+      // No rows were affected, indicating that the product with the given ID was not found
+      res.status(404).json({ error: 'Product not found' });
+    }
+  });
+});
 
 
 app.listen(port, () => {

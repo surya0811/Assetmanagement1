@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { BsCart3, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillMenuButtonWideFill } from 'react-icons/bs';
+import { BsSearch, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillMenuButtonWideFill } from 'react-icons/bs';
 import {  useNavigate } from 'react-router-dom';
 
 
@@ -36,8 +36,8 @@ function Sidebar({ openSidebarToggle }) {
       </div>
       <ul className='sidebar-list'>
         <li className='sidebar-list-items'>
-          <button onClick={() => { window.location.href = "/purchase" }}>
-            <BsCart3 className='icon'/> PURCHASE
+          <button onClick={() => { window.location.href = "/search" }}>
+            <BsSearch className='icon'/> SEARCH
           </button>
         </li>
         <li className='sidebar-list-items'>

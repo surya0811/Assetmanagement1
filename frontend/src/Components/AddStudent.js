@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+//surya vemparala hii welcome aravind
+// Aravind is a good boy 
 const AddStudent = () => {
     const [data, setDate] = useState({
         name: '',

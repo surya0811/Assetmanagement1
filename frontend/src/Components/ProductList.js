@@ -190,13 +190,13 @@ useEffect(() => {
 
   return (
     <div className="p-4"
-    style={{
-      backgroundImage: `url(${sucessimage})`,
-      backgroundSize:'inherit',
-      opacity:'3'
-      
-    }}
-    >
+  style={{
+    backgroundImage: `url(${sucessimage})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: 'rgba(255, 245, 245, 0.5)' // Adjust the opacity as needed
+  }}
+>
       <div className="flex justify-between items-center mb-4">
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

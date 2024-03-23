@@ -84,52 +84,59 @@ const Search = () => {
   const handleEditClick = (product) => {
     setEditingProduct(product);
   };
-
   const handleEditSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
-      const response = await fetch(`http://localhost:3000/editproduct/${editingProduct.productid}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          departmentcode: event.target.departmentCode.value,
-          labcode: event.target.labCode.value,
-          // Add other fields as needed
-        }),
-      });
-
-      if (response.ok) {
-        setProducts((prevProducts) =>
-          prevProducts.map((product) =>
-            product.productid === editingProduct.productid
-              ? {
-                  ...product,
-                  departmentcode: event.target.departmentCode.value,
-                  labcode: event.target.labCode.value,
-                  // Update other fields as needed
-                }
-              : product
-          )
-        );
-
-        setEditingProduct(null);
-        alert(`Product with ID ${editingProduct.productid} saved successfully.`);
+      const confirmation = window.confirm('Are you sure you want to update the product?');
+  
+      if (confirmation) {
+        const response = await fetch(`http://localhost:3000/editproduct/${editingProduct.productid}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            departmentcode: event.target.departmentCode.value,
+            labcode: event.target.labCode.value,
+            // Add other fields as needed
+          }),
+        });
+  
+        if (response.ok) {
+          setProducts((prevProducts) =>
+            prevProducts.map((product) =>
+              product.productid === editingProduct.productid
+                ? {
+                    ...product,
+                    departmentcode: event.target.departmentCode.value,
+                    labcode: event.target.labCode.value,
+                    // Update other fields as needed
+                  }
+                : product
+            )
+          );
+  
+          setEditingProduct(null);
+          alert(`Product with ID ${editingProduct.productid} saved successfully.`);
+        } else {
+          console.error('Failed to update product');
+        }
       } else {
-        console.error('Failed to update product');
+        console.log('Update canceled');
       }
     } catch (error) {
       console.error('Error updating product:', error);
     }
   };
+  
 
   return (
-    <div className="container mx-auto my-8 p-8 bg-gray-200 shadow-md rounded-md">
-      <h2 className="text-3xl font-bold mb-6 text-center text-blue-800">Product Search</h2>
-      <div className="mb-4">
-        <label htmlFor="department" className="block text-gray-700 font-bold mb-2">
+    <div className="container mx-auto my-6 p-8 bg-green-200 shadow-md rounded-md">
+      <h2 className="text-3xl font-bold mb-6 text-center uppercase  text-blue-800">Product Search</h2>
+      <div className="flex mb-4">
+        <div className="w-1/2 mr-4">
+        <label htmlFor="department" className="text-xl uppercase block text-gray-700 font-bold mb-2">
           Department:
         </label>
         <select
@@ -146,8 +153,9 @@ const Search = () => {
           ))}
         </select>
       </div>
-      <div className="mb-4">
-        <label htmlFor="lab" className="block text-gray-700 font-bold mb-2">
+    
+      <div className="w-1/2 mr-4 overflow-auto">
+        <label htmlFor="lab" className=" text-xl  uppercase block text-gray-700 font-bold mb-2">
           Lab:
         </label>
         <select
@@ -164,8 +172,9 @@ const Search = () => {
           ))}
         </select>
       </div>
-      <div>
-        <h3 className="text-2xl font-bold mb-4 text-blue-600">Products:</h3>
+    </div>
+      <div> 
+        <h3 className="text-2xl  uppercase font-bold mb-4 text-blue-600">Products:</h3>
         <table className="border-collapse border border-blue-800 shadow-lg w-full mt-4">
           <thead>
             <tr className="bg-yellow-100 text-red-500 text-l uppercase">
@@ -180,23 +189,23 @@ const Search = () => {
           </thead>
           <tbody>
           {products && products.length > 0 && products.map((product) => (
-            <tr key={product.productid} className="border-blue-800 text-black uppercase text-center font-bold">
+            <tr key={product.productid} className="border-blue-800 text-black uppercase text-center font-bold bg-white">
               {/* Product details */}
               <td className="border px-4 py-2">{product.productid}</td>
-              <td className="border px-4 py-2">{product.productName}</td>
-              <td className="border px-4 py-2">{product.departmentcode}</td>
-              <td className="border px-4 py-2">{product.labcode}</td>
+              <td className="border px-3 py-1">{product.productName}</td>
+              <td className="border px-3 py-1">{product.departmentcode}</td>
+              <td className="border px-3 py-1">{product.labcode}</td>
               <td className="border px-4 py-2">
                 <img
                   src={`${product.productImage}`}
                   alt={`${product.productName}`}
-                  style={{ width: '150px', height: '150px' }}
+                  style={{ width: '160px', height: '150px' }}
                   onError={(e) => console.log('Image failed to load:', e)}
                 />
               </td>
-              <td className="border px-4 py-2">{product.productDescription}</td>
+              <td className="border px-3 py-2">{product.productDescription}</td>
               {/* Actions */}
-              <td className="border px-4 py-2">
+              <td className="border px-6 py-2">
                 {editingProduct && editingProduct.productid === product.productid ? (
                   // Edit form
                   <form onSubmit={handleEditSubmit} className="flex items-center">

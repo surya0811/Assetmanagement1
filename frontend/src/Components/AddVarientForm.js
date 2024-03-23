@@ -49,7 +49,7 @@ function AddVariantForm({ productId, onVariantAdded }) {
 
   return (
     <div className="bg-gradient-to-r from-blue-600 via-green-500 to-yellow-400 p-4 rounded shadow">
-      <h2 className="text-xl text-black font-semibold mb-4">Add Variants for Product ID: {productId}</h2>
+      <h2 className="text-xl text-black font-semibold mb-4 uppercase">Add Variants for Product ID: {productId}</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex mb-4">
           <input
@@ -75,7 +75,7 @@ function AddVariantForm({ productId, onVariantAdded }) {
         ))}
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-gradient-to-r from-green-600 via-blue-500 to-yellow-400 text-black py-2 px-4 mt-4 rounded font-bold"
+          className="bg-green-600  text-black py-2 px-4 mt-4 rounded font-bold"
         >
           Add Variants
         </button>

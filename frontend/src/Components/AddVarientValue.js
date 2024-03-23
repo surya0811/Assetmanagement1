@@ -29,18 +29,20 @@ function AddVarientValue({ onSubmit }) {
     // Make an API call to fetch variants based on the selected product
     // Adjust the endpoint accordingly
     fetch(`http://localhost:3000/variants1?product=${selectedProduct}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.variants && data.variants.length > 0) {
-          setVariants(data.variants);
-        } else {
-          setNoProductFound(true);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching variants:', error);
-      });
-  };
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.variants && data.variants.length > 0) {
+        setVariants(data.variants);
+        setNoProductFound(false); // Reset noProductFound state
+      } else {
+        setVariants([]); // Reset variants state
+        setNoProductFound(true);
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching variants:', error);
+    });
+};
 
   const handleInputChange = (variant, e) => {
     const newValue = e.target.value;
@@ -81,13 +83,13 @@ function AddVarientValue({ onSubmit }) {
   };
 
   return (
-    <div className="mt-4" style={{ backgroundImage: `url(${sucessimage})`, backgroundSize: 'cover' }}>
-      <h2 className="text-3xl font-bold mb-2 text-black-1000 text-center uppercase"> VARIANT VALUE</h2>
+    <div className="mt-0" style={{ backgroundImage: `url(${sucessimage})`, backgroundSize: 'cover' }}>
+      <h2 className="text-3xl font-bold mb-2 text-white text-center uppercase"> VARIANT VALUE</h2>
       <form onSubmit={handleSubmit}>
-        <label className="text-xl block mb-4 text-black-1000 font-bold border-blue-300 uppercase">
+        <label className="text-xl block mb-4 text-white font-bold border-blue-300 uppercase">
           Select Product:
           <select
-            className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 text-black"
             value={productName}
             onChange={(e) => {
               setProductName(e.target.value);
@@ -104,30 +106,33 @@ function AddVarientValue({ onSubmit }) {
             ))}
           </select>
         </label>
-        <button className="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-20" type="submit">
-          Add Variant Value
-        </button>
+        
       </form>
       {noProductFound && <p className="mt-2 text-red-700">No product found with the specified name.</p>}
       {variants.length > 0 && (
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold mb-4">Enter Variant Values</h2>
+        <div className="mt-6 relative right-0 mr-0 md:mr-100">
+          {/* <h2 className="text-lg font-semibold mb-4">Enter Variant Values</h2> */}
           {variants.map((variant, index) => (
-            <div key={index} className="mb-4">
-              <label className="block mb-1">{variant}:</label>
-              <input
-                type="text"
-                placeholder={`Enter Value for ${variant}`}
-                className="w-full border p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
-                value={values[variant] || ''}
-                onChange={(e) => handleInputChange(variant, e)}
-              />
-            </div>
-          ))}
+            <div key={index} className="mb-4 grid grid-rows-2 gap-4">
+               <label className="text-xl block mb-1 font-bold text-white uppercase">{variant}:</label>
+                <input
+                  type="text"
+                  placeholder={`Enter Value for ${variant}`}
+                  className="w-full md:w-80 border p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
+                  value={values[variant] || ''}
+                  onChange={(e) => handleInputChange(variant, e)}
+                />
+              </div>
+            ))}
         </div>
       )}
+      <button className="bg-green-700 text-white font-bold py-2 px-4 rounded ml-20" type="submit">
+          Add Variant Value
+        </button>
     </div>
+    
   );
+  
 }
 
 export default AddVarientValue;

@@ -51,8 +51,8 @@ function Sidebar({ openSidebarToggle }) {
           </button>
         </li>
         <li className='sidebar-list-items'>
-          <button onClick={() => { window.location.href = "#" }}>
-            <BsPeopleFill className='icon' /> CUSTOMERS
+          <button onClick={() => { window.location.href = "/sidebar" }}>
+            <BsPeopleFill className='icon' /> REPORTS
           </button>
         </li>
         <li className='sidebar-list-items'>
@@ -64,11 +64,11 @@ function Sidebar({ openSidebarToggle }) {
             {isReportsOpen && (
               <ul className='dropdown-menu animated-dropdown'>
                 <li>
-                  <button onClick={() => { window.location.href = "/productreport" }}>Products Report</button>
+                  <button onClick={() => { window.location.href = "/report" }}>Products Report</button>
                 </li>
                 
                 <li>
-                  <button onClick={() => { window.location.href = "/report" }}>  Complete Report</button>
+                  <button onClick={() => { window.location.href = "/productreport" }}>  Complete Report</button>
                 </li>
                 {/* Add more reports as needed */}
               </ul>

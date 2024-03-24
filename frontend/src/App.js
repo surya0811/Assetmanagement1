@@ -16,6 +16,7 @@ import ResetPassword from "./Components/ForgotPasswordForm";
 import ResetPasswordPage from './Components/ResetPasswordPage';
 import Step3Form from './Components/Step3Form';
 import Search from './Components/Search';
+import Sidebar1 from './Components/Sidebar1';
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
       <Route path="/resetpassword" element={<ResetPassword/>}/>
       <Route path="/reset-password/:emailOrPhone" element={<ResetPasswordPage />} />
       <Route path="/step3Form" element={<Step3Form/>}/>
+      <Route path="/sidebar" element={<Sidebar1/>}/>
+      
+      
+      
     </Routes>
   );
 }

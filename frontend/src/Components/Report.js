@@ -1,6 +1,6 @@
-// Report.jsx
 import React, { useState, useEffect } from 'react';
 import sucessimage from '../images/Designer.jpeg';
+
 const Report = () => {
   const [reportData, setReportData] = useState([]);
 
@@ -15,22 +15,10 @@ const Report = () => {
     const groupedData = {};
 
     reportData.forEach((product) => {
-      const { productid, productName, variants, variantValues } = product;
+      const { productid, productName,departmentcode, labcode, productImage, productDescription } = product;
 
       if (!groupedData[productid]) {
-        groupedData[productid] = { productName, variants: [] };
-      }
-
-      const newVariant = { variants, variantValues };
-
-      const existingVariant = groupedData[productid].variants.find(
-        (v) => v.variant === newVariant.variants
-      );
-
-      if (existingVariant) {
-        existingVariant.VariantValue += `, ${newVariant.variantValues}`;
-      } else {
-        groupedData[productid].variants.push(newVariant);
+        groupedData[productid] = { productName,departmentcode, labcode, productImage, productDescription  };
       }
     });
 
@@ -40,28 +28,27 @@ const Report = () => {
   const renderProductRows = () => {
     const groupedData = preprocessData();
 
-    return Object.keys(groupedData).map((productId,rowIndex) => {
-      const { productName, variants } = groupedData[productId];
+    return Object.keys(groupedData).map((productId, rowIndex) => {
+      const { productName,departmentcode, labcode, productImage, productDescription } = groupedData[productId];
 
       const isEvenRow = rowIndex % 2 === 0;
 
       return (
-        <React.Fragment key={productId}>
-          <tr className={`border-b text-black ${isEvenRow ? 'bg-green-300' : 'bg-yellow-200'}`}>
-            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productId}</td>
-            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productName}</td>
-            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{variants[0].variants}</td>
-            <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{variants[0].variantValues}</td>
-          </tr>
-          {variants.slice(1).map((variant, index) => (
-            <tr key={`${productId}-${index}`} className={`border-b text-black text-center align-middle ${isEvenRow ? 'bg-green-300' : 'bg-yellow-200'}`}>
-              <td className="py-2 px-4"></td>
-              <td className="py-2 px-4"></td>
-              <td className="py-2 px-4">{variant.variants}</td>
-              <td className="py-2 px-4">{variant.variantValues}</td>
-            </tr>
-          ))}
-        </React.Fragment>
+        <tr key={productId} className={`border-b text-black ${isEvenRow ? 'bg-green-300' : 'bg-yellow-200'}`}>
+          <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productId}</td>
+          <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productName}</td>
+          <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{departmentcode}</td>
+          <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{labcode}</td>
+          <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">
+            <img
+              src={`http://localhost:3000/${productImage}`} // Assuming the API provides the full path
+              alt={productName}
+              style={{ width: '100px', height: '100px' }} // Adjust dimensions as needed
+            />
+          </td>
+          <td className="py-2 px-4 text-center align-middle font-bold text-l uppercase">{productDescription}</td>
+          
+        </tr>
       );
     });
   };
@@ -78,8 +65,11 @@ const Report = () => {
             <tr>
               <th className="py-2 px-4 border-b">ID</th>
               <th className="py-2 px-4 border-b">Product Name</th>
-              <th className="py-2 px-4 border-b">Variant</th>
-              <th className="py-2 px-4 border-b">Value</th>
+              <th className="py-2 px-4 border-b">Department</th>
+              <th className="py-2 px-4 border-b">Lab</th>
+              <th className="py-2 px-4 border-b">Product Image</th>
+              <th className="py-2 px-4 border-b">description</th>
+             
             </tr>
           </thead>
           <tbody>{renderProductRows()}</tbody>

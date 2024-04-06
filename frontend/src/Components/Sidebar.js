@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { BsSearch, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillMenuButtonWideFill } from 'react-icons/bs';
+import { BsSearch, BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill } from 'react-icons/bs';
 import {  useNavigate } from 'react-router-dom';
 
 
@@ -50,13 +50,14 @@ function Sidebar({ openSidebarToggle }) {
             <BsFillGrid3X3GapFill className='icon' /> ADDVARIANTVALUE
           </button>
         </li>
+        
         <li className='sidebar-list-items'>
           <button onClick={() => { window.location.href = "/sidebar" }}>
             <BsPeopleFill className='icon' /> REPORTS
           </button>
         </li>
-        <li className='sidebar-list-items'>
-          {/* Dropdown for Reports */}
+        {/* <li className='sidebar-list-items'>
+         
           <div className={`dropdown ${isReportsOpen ? 'open' : ''}`}>
             <button onClick={toggleReportsDropdown}>
               <BsFillMenuButtonWideFill className='icon' /> REPORTS
@@ -70,11 +71,11 @@ function Sidebar({ openSidebarToggle }) {
                 <li>
                   <button onClick={() => { window.location.href = "/productreport" }}>  Complete Report</button>
                 </li>
-                {/* Add more reports as needed */}
+               
               </ul>
             )}
             </div>
-          </li>
+          </li> */}
         
         <li className='sidebar-list-items' onClick={handleLogout}>
         <button >

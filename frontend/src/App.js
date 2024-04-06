@@ -11,12 +11,14 @@ import AddVarientValue from "./Components/AddVarientValue";
 import UserPage from "./Components/UserPage";
 import CustomAlert from "./Components/CustomAlert";
 import Report from "./Components/Report";
+import Report1 from "./Components/Report1";
 import ProductReport from "./Components/ProductReport";
 import ResetPassword from "./Components/ForgotPasswordForm";
 import ResetPasswordPage from './Components/ResetPasswordPage';
 import Step3Form from './Components/Step3Form';
 import Search from './Components/Search';
 import Sidebar1 from './Components/Sidebar1';
+import VariantReport from "./Components/VariantReport";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
       <Route path="/search" element={<UserPage />} />
       <Route path="/alert" element={<CustomAlert />} />
       <Route path="/report" element={<Report />} />
+      <Route path="/report1" element={<Report1 />} />
+      <Route path="/VariantReport" element={<VariantReport />} />
       <Route path="/productreport" element={<ProductReport />} />
       <Route path="/resetpassword" element={<ResetPassword/>}/>
       <Route path="/reset-password/:emailOrPhone" element={<ResetPasswordPage />} />

@@ -50,6 +50,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
+  backgroundColor:'white',
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -71,13 +72,13 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }));
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
+    backgroundColor: '#2196f3',
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -89,9 +90,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
  function Sidebar1() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -109,13 +111,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     axios.get('http://localhost:3000/logout')
         .then(res => {
           
-            navigate('/')
+            navigate('/dashboard')
         }).catch(err => console.log(err))
     }
 
   const iconList = [ <AppsIcon />];
-  const itemList = ['PRODUCT INFO', 'VARIANT INFO', 'COMPLETE INFO', 'Reports'];
-  const routeList = ['/productreport', '/producttable', '/addvarientvalue', '/report'];
+  const itemList = ['PRODUCT INFO', 'VARIANT INFO', 'COMPLETE INFO', 'DEPARTMENT INFO'];
+  const routeList = ['/productreport', '/VariantReport', '/report1', '/report'];
   // const iconList = [<SearchIcon />, <InventoryIcon />, <AppsIcon />, <DatasetIcon/>];
 
   return (

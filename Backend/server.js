@@ -694,6 +694,26 @@ app.get('/report', (req, res) => {
     }
   });
 });
+app.get('/report1', (req, res) => {
+  connection.query('SELECT * FROM completeproductview', (error, results) => {
+    if (error) {
+      console.error('Error querying database:', error);
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    } else {
+      res.json(results);
+    }
+  });
+});
+app.get('/VariantReport', (req, res) => {
+  connection.query('SELECT * FROM variantview', (error, results) => {
+    if (error) {
+      console.error('Error querying database:', error);
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    } else {
+      res.json(results);
+    }
+  });
+});
 app.get('/productsfetch', (req, res) => {
   connection.query('SELECT productName FROM products1', (error, rows) => {
     if (error) {

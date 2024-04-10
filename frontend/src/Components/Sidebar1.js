@@ -17,9 +17,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import AppsIcon from "@mui/icons-material/Apps";
+import SearchIcon from "@mui/icons-material/SearchRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import image1 from '../images/image1.jpeg';
+import image2 from '../images/image3.jpeg';
 
 const drawerWidth = 240;
 
@@ -134,20 +137,21 @@ function Sidebar1() {
     axios
       .get("http://localhost:3000/logout")
       .then((res) => {
-        navigate("/dashboard");
+        navigate("/");
       })
       .catch((err) => console.log(err));
   };
 
-  const iconList = [<AppsIcon />];
+  
   const itemList = [
+    "SEARCH INFO",
     "PRODUCT INFO",
     "VARIANT INFO",
     "COMPLETE INFO",
     "DEPARTMENT INFO",
   ];
-  const routeList = ["/productreport", "/VariantReport", "/report1", "/report"];
-  // const iconList = [<SearchIcon />, <InventoryIcon />, <AppsIcon />, <DatasetIcon/>];
+  const routeList = ["/UserSearch","/productreport", "/VariantReport", "/report1", "/report"];
+  const iconList = [<SearchIcon />,<AppsIcon /> , <AppsIcon />, <AppsIcon />,<AppsIcon />];
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -167,13 +171,13 @@ function Sidebar1() {
             <MenuIcon />
           </IconButton>
           <Typography
-            variant="h5"
+            variant="h4"
             noWrap
             component="div"
             textTransform={"Uppercase"}
             textAlign={"center"}
           >
-            Asset management Report information portal
+               Asset management Report information portal
           </Typography>
         </Toolbar>
       </AppBar>
@@ -185,6 +189,7 @@ function Sidebar1() {
             component="div"
             textTransform={"Uppercase"}
             textAlign={"center"}
+            sx={{color:'#5DADE2'}}
           >
             Asset@INFO
           </Typography>
@@ -219,9 +224,9 @@ function Sidebar1() {
                     justifyContent: "center",
                   }}
                 >
-                  {iconList}
+                  {iconList[index]}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={text} sx={{ color: '#052374', opacity: open ? 1 : 0, fontWeight: 'bolder'}} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -251,7 +256,7 @@ function Sidebar1() {
                 >
                   {<LogoutIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={text} sx={{ color: 'Blue', opacity: open ? 1 : 0, fontWeight: 'bolder'}} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -259,58 +264,69 @@ function Sidebar1() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
-      <StyledHeading variant="h4" gutterBottom>
+      <StyledHeading variant="h4" gutterBottom style={{ textTransform: 'capitalize' }}>
         Welcome to the Asset Management System
       </StyledHeading>
-      <Typography variant="body1">
+      <Typography variant="h6" sx={{ marginBottom: '16px',textAlign:'justify' }}>
         Our Asset Management System provides a comprehensive solution for
         managing various types of assets within your organization. Whether it's
         equipment, inventory, facilities, or digital assets, our system helps
         you track, monitor, and optimize your assets' lifecycle.
+
+        One of the primary features available to you is the Asset Listing section, 
+        where you can view a comprehensive list of all your assets. 
+        This list includes essential details such as asset name, description, quantity, and location,
+       enabling you to have a clear overview of your assets at a glance.
       </Typography>
-      <StyledHeading variant="h5" gutterBottom>
+      
+      <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <div>
+          <img src={image1} alt="Image 1" style={{ width: '550px', height: '500px' }} />
+        </div>
+        <div>
+          <img src={image2} alt="Image 2" style={{ width: '550px', height: '500px' }} />
+        </div>
+      </Box>
+
+      <StyledHeading variant="h4" gutterBottom sx={{ marginBottom: '14px' }}>
         Key Features:
       </StyledHeading>
       <StyledFeatureList>
-        <li>
-          Inventory Management: Keep track of all your assets in one central
-          repository.
-        </li>
-        <li>
-          Asset Tracking: Monitor the location, status, and condition of assets
-          in real-time.
-        </li>
-        <li>
-          Maintenance Scheduling: Schedule and manage maintenance tasks to
-          ensure assets are properly maintained.
-        </li>
-        <li>
-          Depreciation Calculation: Automatically calculate asset depreciation
-          to maintain accurate financial records.
-        </li>
-        <li>
-          Reporting and Analytics: Generate reports and analytics to gain
-          insights into asset performance and utilization.
-        </li>
-        <li>
-          Integration: Seamlessly integrate with other business systems for data
-          exchange and workflow automation.
-        </li>
+      <Typography variant="h6" sx={{textAlign:'justify'}}>
+        <span>Our Asset Management System provides a comprehensive solution for managing various types of assets within your organization. Whether it's equipment, inventory, facilities, or digital assets, our system helps you track, monitor, and optimize your assets' lifecycle.</span>
+        <br/><br/>
+        <span style={{ color: 'purple', textTransform:'capitalize' }}>Asset Tracking:</span>
+        <span>Monitor the location, status, and condition of assets in real-time.</span>
+        <br/><br/>
+        <span style={{ color: 'purple',textTransform:'capitalize' }}>Maintenance Scheduling:</span>
+        <span>Schedule and manage maintenance tasks to ensure assets are properly maintained.</span>
+        <br/><br/>
+        <span style={{ color: 'purple',textTransform:'capitalize' }}>Depreciation Calculation:</span>
+        <span>Automatically calculate asset depreciation to maintain accurate financial records.</span>
+        <br/><br/>
+        <span style={{ color: 'purple',textTransform:'capitalize' }}>Reporting and Analytics:</span>
+        <span>Generate reports and analytics to gain insights into asset performance and utilization.</span>
+        <br/><br/>
+        <span style={{ color: 'purple',textTransform:'capitalize' }}>Integration:</span>
+        <span>Seamlessly integrate with other business systems for data exchange and workflow automation.</span>
+      </Typography>
+
       </StyledFeatureList>
-      <Typography variant="body1">
+
+      <Typography variant="h6" sx={{ marginBottom: '16px', textAlign:'justify' }}>
         Our Asset Management System is designed to streamline your asset
         management processes, improve efficiency, and reduce operational costs.
         Whether you're a small business or a large enterprise, our solution can
         scale to meet your needs.
+        <br/>
+        Once generated, reports can be easily viewed and accessed within the portal.
+        Dive deep into thedata provided to gain valuable insights into asset utilization,
+       maintenance history, and performance metrics.Stay up-to-date with your asset management metrics by 
+       scheduling automated reports. Set up scheduled
+        reports to be generated and delivered to your inbox at predefined intervals, ensuring that 
+        you're always informed about the latest developments.
       </Typography>
-      <StyledHeading variant="h5" gutterBottom>
-        Get Started:
-      </StyledHeading>
-      <StyledGetStarted variant="body1">
-        To get started, explore the menu options on the left to access different
-        features of the system. If you have any questions or need assistance,
-        feel free to contact our support team.
-      </StyledGetStarted>
+      
     </Box>
     </Box>
   );

@@ -198,12 +198,12 @@ useEffect(() => {
   }}
 >
       <div className="flex justify-between items-center mb-4">
-        <button
+        {/* <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           onClick={handlePurchaseClick}
         >
           <FaShoppingCart className="mr-2" /> Purchase
-        </button>
+        </button> */}
         <h2 className="text-5xl font-semibold text-center uppercase marquee1 text-black-800">Asset management system</h2>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

@@ -268,7 +268,7 @@ function Sidebar1() {
         Welcome to the Asset Management System
       </StyledHeading>
       <Typography variant="h6" sx={{ marginBottom: '16px',textAlign:'justify' }}>
-        Our Asset Management System provides a comprehensive solution for
+        The Asset Management System provides a comprehensive solution for
         managing various types of assets within your organization. Whether it's
         equipment, inventory, facilities, or digital assets, our system helps
         you track, monitor, and optimize your assets' lifecycle.
@@ -293,7 +293,7 @@ function Sidebar1() {
       </StyledHeading>
       <StyledFeatureList>
       <Typography variant="h6" sx={{textAlign:'justify'}}>
-        <span>Our Asset Management System provides a comprehensive solution for managing various types of assets within your organization. Whether it's equipment, inventory, facilities, or digital assets, our system helps you track, monitor, and optimize your assets' lifecycle.</span>
+        {/* <span>The Asset Management System provides a comprehensive solution for managing various types of assets within your organization. Whether it's equipment, inventory, facilities, or digital assets, our system helps you track, monitor, and optimize your assets' lifecycle.</span> */}
         <br/><br/>
         <span style={{ color: 'purple', textTransform:'capitalize' }}>Asset Tracking:</span>
         <span>Monitor the location, status, and condition of assets in real-time.</span>
@@ -314,7 +314,7 @@ function Sidebar1() {
       </StyledFeatureList>
 
       <Typography variant="h6" sx={{ marginBottom: '16px', textAlign:'justify' }}>
-        Our Asset Management System is designed to streamline your asset
+        The Asset Management System is designed to streamline your asset
         management processes, improve efficiency, and reduce operational costs.
         Whether you're a small business or a large enterprise, our solution can
         scale to meet your needs.
